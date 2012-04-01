@@ -42,11 +42,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="floorTest.png">
-      <Name>floorTest</Name>
-    </Compile>
     <Compile Include="wallA.png">
       <Name>wallA</Name>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="floorTest.png">
+      <Name>floorTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="floorTest_heigtmap.png">
+      <Name>floorTest_heightmap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="shaders\SimpleSprite.fx">
+      <Name>SimpleSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="shaders\DepthSprite.fx">
+      <Name>DepthSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="shaders\ClearBuffers.fx">
+      <Name>ClearBuffers</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

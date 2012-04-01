@@ -16,7 +16,7 @@ namespace Engine
     /// </summary>
     public class ChipEngine
     {
-        TextureManager textureManager = null;
+        AssetManager assetManager = null;
         World currentWorld = null;
         Renderer renderer = null;
         ContentManager content = null;
@@ -28,20 +28,27 @@ namespace Engine
             graphicsDevice = device;
 
             ClearWorld();
-            renderer = new Renderer(textureManager, graphicsDevice);
+            renderer = new Renderer(assetManager, graphicsDevice);
         }
 
         public void ClearWorld()
         {
-            if (textureManager != null)
-                textureManager = null;
+            if (assetManager != null)
+                assetManager = null;
 
             if (currentWorld != null)
                 currentWorld = null;
 
-            textureManager = new TextureManager(content);
-            currentWorld = new World(textureManager);
+            assetManager = new AssetManager(content);
+            currentWorld = new World(assetManager);
+            LoadEffects();
             
+        }
+
+        private void LoadEffects()
+        {
+            assetManager.LoadEffect("shaders/SimpleSprite");
+            assetManager.LoadEffect("shaders/ClearBuffers");
         }
 
         /// <summary>

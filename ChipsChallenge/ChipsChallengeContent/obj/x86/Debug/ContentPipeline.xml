@@ -2,20 +2,57 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>floorTest.png</Source>
-      <Name>floorTest</Name>
-      <Importer>TextureImporter</Importer>
-      <Options>None</Options>
-      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\floorTest.xnb</Output>
-      <Time>2012-03-31T14:23:20.9062518-07:00</Time>
-    </Item>
-    <Item>
       <Source>wallA.png</Source>
       <Name>wallA</Name>
       <Importer>TextureImporter</Importer>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\wallA.xnb</Output>
       <Time>2012-03-31T14:23:40.5763768-07:00</Time>
+    </Item>
+    <Item>
+      <Source>floorTest.png</Source>
+      <Name>floorTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\floorTest.xnb</Output>
+      <Time>2012-03-31T20:26:09.9783715-07:00</Time>
+    </Item>
+    <Item>
+      <Source>floorTest_heigtmap.png</Source>
+      <Name>floorTest_heightmap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\floorTest_heightmap.xnb</Output>
+      <Time>2012-03-31T21:01:15.8098181-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\SimpleSprite.fx</Source>
+      <Name>shaders\SimpleSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\SimpleSprite.xnb</Output>
+      <Time>2012-03-31T23:24:50.530552-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\DepthSprite.fx</Source>
+      <Name>shaders\DepthSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\DepthSprite.xnb</Output>
+      <Time>2012-04-01T02:10:19.8494765-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\ClearBuffers.fx</Source>
+      <Name>shaders\ClearBuffers</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\ClearBuffers.xnb</Output>
+      <Time>2012-04-01T02:15:55.698686-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

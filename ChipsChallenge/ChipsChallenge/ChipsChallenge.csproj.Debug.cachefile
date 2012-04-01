@@ -1,2 +1,6 @@
-Content\floorTest.xnb
 Content\wallA.xnb
+Content\floorTest.xnb
+Content\floorTest_heightmap.xnb
+Content\shaders\SimpleSprite.xnb
+Content\shaders\DepthSprite.xnb
+Content\shaders\ClearBuffers.xnb

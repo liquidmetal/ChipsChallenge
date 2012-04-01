@@ -37,11 +37,11 @@
             this.mnuCreateTestFloor = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolCommon = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.splitSide = new System.Windows.Forms.SplitContainer();
             this.gridProperties = new System.Windows.Forms.PropertyGrid();
             this.formRenderer = new LevelEditor.FormRenderer();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.menuMain.SuspendLayout();
             this.toolCommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -119,6 +119,15 @@
             this.toolCommon.TabIndex = 3;
             this.toolCommon.Text = "toolStrip1";
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
             // splitContainer
             // 
             this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
@@ -172,18 +181,12 @@
             // 
             this.formRenderer.Location = new System.Drawing.Point(0, 0);
             this.formRenderer.Name = "formRenderer";
-            this.formRenderer.Size = new System.Drawing.Size(75, 23);
+            this.formRenderer.Size = new System.Drawing.Size(251, 220);
             this.formRenderer.TabIndex = 0;
             this.formRenderer.Text = "formRenderer2";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.formRenderer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseDown);
+            this.formRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseMove);
+            this.formRenderer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseUp);
             // 
             // MainForm
             // 

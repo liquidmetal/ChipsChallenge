@@ -19,8 +19,10 @@ namespace Engine.Entities
 
         protected bool m_bMirrorHorizontal;
         protected bool m_bMirrorVertical;
+
         protected Vector2 m_vecPosition;
         protected string m_strSprite;
+        protected Color m_colorTint;
 
         /// <summary>
         /// The position where this floor tile was placed
@@ -49,8 +51,17 @@ namespace Engine.Entities
             set { m_bMirrorVertical = value; }
         }
 
+        public Color Tint
+        {
+            get { return m_colorTint; }
+            set { m_colorTint = value; }
+        }
+
         public Entity()
         {
+            m_colorTint = Color.White;
+            m_bMirrorHorizontal = false;
+            m_bMirrorVertical = false;
         }
     }
 }

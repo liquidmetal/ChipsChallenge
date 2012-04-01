@@ -11,3 +11,7 @@ D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Engine.dl
 D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Engine.pdb
 D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\obj\x86\Debug\LevelEditorXna.exe
 D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\obj\x86\Debug\LevelEditorXna.pdb
+D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\floorTest_heightmap.xnb
+D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\SimpleSprite.xnb
+D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\DepthSprite.xnb
+D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\ClearBuffers.xnb

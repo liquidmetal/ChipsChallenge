@@ -13,9 +13,9 @@ namespace Engine
     public class World
     {
         List<Entity> m_lstEntities;
-        TextureManager texMan;
+        AssetManager texMan;
 
-        public World(TextureManager tex)
+        public World(AssetManager tex)
         {
             texMan = tex;
             m_lstEntities = new List<Entity>();

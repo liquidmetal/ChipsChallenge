@@ -20,10 +20,16 @@ using Engine.Entities;
 
 namespace LevelEditor
 {
+    enum CurrentState { NothingSelected, Selected, Moving };
+
     public partial class MainForm : Form
     {
         World currentWorld = null;
         Renderer currentRenderer = null;
+
+
+        Entity m_selectedEntity = null;
+        private Vector2 m_ptLastMouseClick;
 
         public MainForm()
         {
@@ -96,6 +102,54 @@ namespace LevelEditor
         private void mnuCreateTestFloor_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new FloorTile());
+        }
+
+        private void formRenderer_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Do stuff based on the current state
+
+            m_ptLastMouseClick = new Vector2(e.X, e.Y);
+
+            Entity ent = currentRenderer.GetEntityAtPosition(currentWorld, e.X, e.Y);
+
+            m_selectedEntity = ent;
+            gridProperties.SelectedObject = m_selectedEntity;
+        }
+
+        private void formRenderer_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Do stuff based on the current state
+
+            // If the middle button is pressed, we're panning the shot
+            if(e.Button == System.Windows.Forms.MouseButtons.Middle)
+            {
+                Vector2 camPos = currentRenderer.CameraPosition;
+                camPos.X += (e.X - m_ptLastMouseClick.X);
+                camPos.Y += (e.Y - m_ptLastMouseClick.Y);
+
+                currentRenderer.CameraPosition = camPos;
+
+                m_ptLastMouseClick = new Vector2(e.X, e.Y);
+            }
+
+            // If the left button is pressed && an object is selected
+            // we're moving that object
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && m_selectedEntity!=null)
+            {
+                Vector2 pos = m_selectedEntity.Position;
+
+                pos.X += (e.X - m_ptLastMouseClick.X);
+                pos.Y += (e.Y - m_ptLastMouseClick.Y);
+
+                m_selectedEntity.Position = pos;
+
+                m_ptLastMouseClick = new Vector2(e.X, e.Y);
+            }
+        }
+
+        private void formRenderer_MouseUp(object sender, MouseEventArgs e)
+        {
+            // Do stuff based on the current state
         }
     }
 }
