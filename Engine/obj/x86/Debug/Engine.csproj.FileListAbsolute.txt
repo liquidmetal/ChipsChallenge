@@ -1,0 +1,6 @@
+D:\Projects\ChipsChallenge\Engine\bin\x86\Debug\Engine.dll
+D:\Projects\ChipsChallenge\Engine\bin\x86\Debug\Engine.pdb
+D:\Projects\ChipsChallenge\Engine\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Projects\ChipsChallenge\Engine\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\Projects\ChipsChallenge\Engine\obj\x86\Debug\Engine.dll
+D:\Projects\ChipsChallenge\Engine\obj\x86\Debug\Engine.pdb

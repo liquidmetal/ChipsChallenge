@@ -1,0 +1,8 @@
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\ChipsChallenge.exe
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\ChipsChallenge.pdb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChallenge.exe
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChallenge.pdb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\wallA.xnb
