@@ -9,40 +9,39 @@ float4 PixelShaderFunction(float2 uv : TEXCOORD0, float4 col : COLOR0) : COLOR0
 {
 	float4 ret;
 
-	float2 newPosition;
-	float newHeight;
-
 	float2 shifted;
+	float2 shiftedUnnormalized;
 
-	float2 existingPosition;
-	float existingHeight;
+	float3 bufferPos;
+	float3 texturePos;
 
-	float separation;
+	shiftedUnnormalized = float2((position.x + uv.x*texSize.x), (position.y + uv.y*texSize.y));
+	shifted = float2(shiftedUnnormalized.x/bufferSize.x, shiftedUnnormalized.y/bufferSize.y);
+
+	float4 currentColor = tex2D(currentHeightMap, uv);
+	float4 bufferColor = tex2D(heightBuffer, shifted);
+
+	bufferPos = float3(shiftedUnnormalized.x, shiftedUnnormalized.y+bufferColor.r, bufferColor.r);
+	texturePos = float3(uv.x*texSize.x, uv.y*texSize.y+currentColor.r, currentColor.r);
+
 	float pyth;
 	float thresh;
-	
-	//newHeight = tex2D(currentHeightMap, uv);
-	//newPosition = float2(uv.x, uv.y - newHeight);
 
-	
-	shifted = float2((uv.x*texSize.x + position.x)/bufferSize.x, (uv.y*texSize.y + position.y)/bufferSize.y);
-	//existingHeight = tex2D(heightBuffer, shifted);
-	//existingPosition = float2(uv.x, uv.y - existingHeight);
+	//thresh = 2*(texturePos.z-bufferPos.z)*(texturePos.z-bufferPos.z);
+	//pyth = (texturePos.z-bufferPos.z)*(texturePos.z-bufferPos.z) + ((texturePos.y+position.y)-bufferPos.y)*((texturePos.y+position.y)-bufferPos.y);
 
-	//separation = (existingPosition.y-position.y) - newPosition.y;
-
-	//pyth = (separation*separation) + (existingHeight-newHeight)*(existingHeight-newHeight);
-	//thresh = (existingHeight-newHeight)*(existingHeight-newHeight) + (existingHeight-newHeight)*(existingHeight-newHeight);
-
-	/*if(pyth>=thresh)
+	if(bufferPos.y<=texturePos.y+position.y)
 	{
-		ret.rgba = tex2D(currentHeightMap, uv);
+		ret = currentColor;
+		ret.a = 0;
+	}
+	else
+	{
+		ret = bufferColor;
+		ret.a = 1;
+	}
+	
 
-		return ret;
-	}*/
-
-	ret.rgb = tex2D(currentHeightMap, uv)*col;
-	ret.a=tex2D(currentHeightMap, uv).a;
 	return ret;
 }
 

@@ -96,6 +96,9 @@ namespace Engine
             RenderTarget2D finalResult = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             RenderTarget2D temp = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
 
+            graphicsDevice.SetRenderTarget(finalResult);
+            graphicsDevice.Clear(Color.Black);
+
             List<Entity> lstEntities = world.GetEntities();
             foreach (Entity ent in lstEntities)
             {
@@ -114,11 +117,24 @@ namespace Engine
 
                 // Pass 1: Generate a good height map
                 //         No stencil as of now
+
+                // Draw the current sprite's heightmap
+                // It uses the heightmap generated till now
+                // to compute whether a particular point should
                 graphicsDevice.SetRenderTarget(temp);
+                graphicsDevice.Clear(Color.Transparent);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+                depthSpriteShader.Parameters["position"].SetValue(pos);
+                depthSpriteShader.Parameters["bufferSize"].SetValue(new Vector2(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height));
+                depthSpriteShader.Parameters["texSize"].SetValue(new Vector2(texHeightmap.Width, texHeightmap.Height));
+                graphicsDevice.Textures[1] = finalResult;
+
+                depthSpriteShader.Techniques[0].Passes[0].Apply();
                 spriteBatch.Draw(texHeightmap, pos, t[i]);
                 spriteBatch.End();
 
+                // Comp it all together
                 graphicsDevice.SetRenderTarget(finalResult);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 spriteBatch.Draw(temp, Vector2.Zero, Color.White);
