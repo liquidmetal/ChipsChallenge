@@ -24,7 +24,7 @@ namespace Engine
         Vector2 m_posCamera;
 
         private RenderTarget2D m_rtDif;
-        private RenderTarget2D m_rtDepthStencil;
+        private RenderTarget2D m_rtDepth;
         private RenderTarget2D m_rtNormal;
 
         public Renderer(AssetManager tex, GraphicsDevice device)
@@ -32,10 +32,6 @@ namespace Engine
             assetManager = tex;
             graphicsDevice = device;
             m_posCamera = new Vector2(0, 0);
-
-            m_rtDif = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
-            m_rtDepthStencil = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
-            //m_rtDepthStencilm_rtNormal = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
         }
 
         private void SetupRenderTargets()
@@ -81,21 +77,29 @@ namespace Engine
         {
             ClearScreen();
 
-
-            
             Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
+            Effect depthSpriteShader = assetManager.GetEffect("shaders/DepthSprite");
             Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+
+            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
 
             // Step 1: Generate a stencil of which pixels to render
 
 
             // Draw the actual sprites
-            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState., RasterizerState.CullCounterClockwise);
+            Color[] t = { Color.White, Color.Yellow, Color.Purple, Color.Blue };
+            int i = 0;
+
+            m_rtDif = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            m_rtDepth = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+
+            RenderTarget2D finalResult = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            RenderTarget2D temp = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
 
             List<Entity> lstEntities = world.GetEntities();
             foreach (Entity ent in lstEntities)
             {
+                // Gather information
                 Texture2D tex = assetManager.GetTexture(ent.Sprite);
                 Texture2D texHeightmap = assetManager.GetHeightmap(ent.Sprite);
 
@@ -108,12 +112,24 @@ namespace Engine
                 if (ent.MirrorVertical)
                     spriteEffects = spriteEffects | SpriteEffects.FlipVertically;
 
-                shader.Techniques[0].Passes[0].Apply();
+                // Pass 1: Generate a good height map
+                //         No stencil as of now
+                graphicsDevice.SetRenderTarget(temp);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                spriteBatch.Draw(texHeightmap, pos, t[i]);
+                spriteBatch.End();
 
-                //graphicsDevice.Textures[1] = texHeightmap;
-                spriteBatch.Draw(tex, pos, null, ent.Tint, 0, Vector2.Zero, 1, spriteEffects, 1);
+                graphicsDevice.SetRenderTarget(finalResult);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                spriteBatch.Draw(temp, Vector2.Zero, Color.White);
+                spriteBatch.End();
+
+                i++;
             }
 
+            graphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.Draw(finalResult, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             return true;

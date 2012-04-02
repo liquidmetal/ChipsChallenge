@@ -23,6 +23,7 @@ namespace Engine.Entities
         protected Vector2 m_vecPosition;
         protected string m_strSprite;
         protected Color m_colorTint;
+        protected string m_strName;
 
         /// <summary>
         /// The position where this floor tile was placed
@@ -55,6 +56,12 @@ namespace Engine.Entities
         {
             get { return m_colorTint; }
             set { m_colorTint = value; }
+        }
+
+        public string Name
+        {
+            get { return m_strName; }
+            set { m_strName = value; }
         }
 
         public Entity()

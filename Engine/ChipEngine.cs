@@ -49,6 +49,7 @@ namespace Engine
         {
             assetManager.LoadEffect("shaders/SimpleSprite");
             assetManager.LoadEffect("shaders/ClearBuffers");
+            assetManager.LoadEffect("shaders/DepthSprite");
         }
 
         /// <summary>

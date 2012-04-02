@@ -6,7 +6,7 @@ D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChal
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChallenge.pdb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\wallA.xnb
-D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest_heightmap.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\SimpleSprite.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\DepthSprite.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\ClearBuffers.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest_heightmap.xnb

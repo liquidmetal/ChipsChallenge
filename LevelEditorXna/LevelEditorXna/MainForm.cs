@@ -150,6 +150,7 @@ namespace LevelEditor
         private void formRenderer_MouseUp(object sender, MouseEventArgs e)
         {
             // Do stuff based on the current state
+            gridProperties.SelectedObject = m_selectedEntity;
         }
     }
 }
