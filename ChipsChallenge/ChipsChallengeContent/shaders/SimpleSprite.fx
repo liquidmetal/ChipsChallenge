@@ -1,21 +1,17 @@
 sampler tex : register(s0);
-sampler heightmap : register(s1);
+sampler mask : register(s1);
 
-float2 position;
-
-struct PSO
+float4 PixelShaderFunction(float2 uv: TEXCOORD0, float4 color : COLOR0) : COLOR0
 {
-	float4 color : COLOR0;
-	float depth : DEPTH0;
-};
+	float4 ret;
 
-PSO PixelShaderFunction(float2 uv: TEXCOORD0, float4 color : COLOR0)
-{
-	PSO ret;
+	float4 currentColor = tex2D(tex, uv);
+	if(tex2D(mask, uv).a>0)
+		ret = currentColor;
+	else
+		ret = float4(0,0,0,0);
 
-	ret.color = tex2D(heightmap, uv);
-	ret.depth = tex2D(heightmap, uv).r/255.0f;// - uv.y;
-    return ret;
+	return ret;
 }
 
 technique Technique1

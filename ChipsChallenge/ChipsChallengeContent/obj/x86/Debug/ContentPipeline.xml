@@ -16,7 +16,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\SimpleSprite.xnb</Output>
-      <Time>2012-04-01T19:17:20.025949-07:00</Time>
+      <Time>2012-04-04T13:15:34.7173167-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\DepthSprite.fx</Source>
@@ -25,7 +25,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\DepthSprite.xnb</Output>
-      <Time>2012-04-01T22:32:07.8594738-07:00</Time>
+      <Time>2012-04-04T20:08:43.4561515-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\ClearBuffers.fx</Source>
@@ -37,6 +37,33 @@
       <Time>2012-04-01T11:44:21.6014321-07:00</Time>
     </Item>
     <Item>
+      <Source>shaders\ChannelRender.fx</Source>
+      <Name>shaders\ChannelRender</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\ChannelRender.xnb</Output>
+      <Time>2012-04-02T07:47:00.1968638-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\NormalSprite.fx</Source>
+      <Name>shaders\NormalSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\NormalSprite.xnb</Output>
+      <Time>2012-04-04T12:59:08.2328931-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\PointLight.fx</Source>
+      <Name>shaders\PointLight</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\PointLight.xnb</Output>
+      <Time>2012-04-04T21:52:02.0936933-07:00</Time>
+    </Item>
+    <Item>
       <Source>floorTest.png</Source>
       <Name>floorTest</Name>
       <Importer>TextureImporter</Importer>
@@ -46,13 +73,112 @@
       <Time>2012-04-01T13:44:49.1908265-07:00</Time>
     </Item>
     <Item>
-      <Source>floorTest_heigtmap.png</Source>
+      <Source>floorTest_heightmap.png</Source>
       <Name>floorTest_heightmap</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\floorTest_heightmap.xnb</Output>
-      <Time>2012-04-01T13:44:49.1928266-07:00</Time>
+      <Time>2012-04-02T07:16:22.8447733-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\teapot\dif.png</Source>
+      <Name>sprites\test\teapot\dif</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\teapot\dif.xnb</Output>
+      <Time>2012-04-04T12:15:29.5561133-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\teapot\hgt.png</Source>
+      <Name>sprites\test\teapot\hgt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\teapot\hgt.xnb</Output>
+      <Time>2012-04-04T12:21:49.6658544-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\lightpos.png</Source>
+      <Name>sprites\test\lightpos</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\lightpos.xnb</Output>
+      <Time>2012-04-04T13:44:05.9641945-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\lightbulb.png</Source>
+      <Name>sprites\test\lightbulb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\lightbulb.xnb</Output>
+      <Time>2012-04-04T13:57:06.2688253-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\teapot\nrm.png</Source>
+      <Name>sprites\test\teapot\nrm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\teapot\nrm.xnb</Output>
+      <Time>2012-04-04T23:04:12.5553815-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cuboid\dif.png</Source>
+      <Name>sprites\test\cuboid\dif</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cuboid\dif.xnb</Output>
+      <Time>2012-04-04T16:39:10.1189978-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cuboid\hgt.png</Source>
+      <Name>sprites\test\cuboid\hgt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cuboid\hgt.xnb</Output>
+      <Time>2012-04-04T19:55:03.4302487-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cuboid\nrm.png</Source>
+      <Name>sprites\test\cuboid\nrm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cuboid\nrm.xnb</Output>
+      <Time>2012-04-04T18:58:08.3749187-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cylinder\dif.png</Source>
+      <Name>sprites\test\cylinder\dif</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cylinder\dif.xnb</Output>
+      <Time>2012-04-04T23:22:02.4895783-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cylinder\hgt.png</Source>
+      <Name>sprites\test\cylinder\hgt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cylinder\hgt.xnb</Output>
+      <Time>2012-04-04T23:28:15.6109196-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\test\cylinder\nrm.png</Source>
+      <Name>sprites\test\cylinder\nrm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cylinder\nrm.xnb</Output>
+      <Time>2012-04-04T23:22:02.4915784-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Media;
 
 using Engine;
 using Engine.Entities;
+using Engine.Entities.Test;
 
 namespace LevelEditor
 {
@@ -151,6 +152,26 @@ namespace LevelEditor
         {
             // Do stuff based on the current state
             gridProperties.SelectedObject = m_selectedEntity;
+        }
+
+        private void cylinderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Test.Cylinder());
+        }
+
+        private void mnuCreateTestTeapot_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Test.Teapot());
+        }
+
+        private void mnuCreatePointLight_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Lights.PointLight());
+        }
+
+        private void mnuCreateCuboid_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
         }
     }
 }

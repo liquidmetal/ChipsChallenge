@@ -24,7 +24,9 @@ namespace Engine
         public void AddEntity(Entity ent)
         {
             m_lstEntities.Add(ent);
-            texMan.LoadTexture(ent.Sprite);
+
+            if(ent.Type==EntityType.Sprite)
+                texMan.LoadTexture(ent);
         }
 
         public void SaveMap(string file)
@@ -48,6 +50,22 @@ namespace Engine
         public List<Entity> GetEntities()
         {
             return m_lstEntities;
+        }
+
+        public void SortEntities()
+        {
+            for (int i = 0; i < m_lstEntities.Count; i++)
+            {
+                for (int j = i; j < m_lstEntities.Count; j++)
+                {
+                    if (m_lstEntities[i].Position.Y > m_lstEntities[j].Position.Y)
+                    {
+                        Entity tempi = m_lstEntities[i];
+                        m_lstEntities[i] = m_lstEntities[j];
+                        m_lstEntities[j] = tempi;
+                    }
+                }
+            }
         }
     }
 }

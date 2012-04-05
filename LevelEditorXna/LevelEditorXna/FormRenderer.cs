@@ -39,12 +39,22 @@ namespace LevelEditor
         protected override void Initialize()
         {
             engine = new ChipEngine(GraphicsDevice, new ContentManager(this.Services, "Content"));
+            engine.DrawLights(true);
+            this.OnResize(null);
 
             // Start the animation timer.
             timer = Stopwatch.StartNew();
-
+            
             // Hook the idle event to constantly redraw our animation.
             Application.Idle += delegate { Invalidate(); };
+        }
+
+        protected override void OnResize(System.EventArgs e)
+        {
+            base.OnResize(e);
+
+            if(this.Width>0 && this.Height>0 && engine!=null)
+                engine.ResizeViewport(this.Width, this.Height);
         }
 
         /// <summary>

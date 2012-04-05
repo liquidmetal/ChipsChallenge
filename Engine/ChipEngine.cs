@@ -22,6 +22,8 @@ namespace Engine
         ContentManager content = null;
         GraphicsDevice graphicsDevice = null;
 
+        bool drawLight = false;
+
         public ChipEngine(GraphicsDevice device, ContentManager content)
         {
             this.content = content;
@@ -29,6 +31,17 @@ namespace Engine
 
             ClearWorld();
             renderer = new Renderer(assetManager, graphicsDevice);
+        }
+
+        public void ResizeViewport(int width, int height)
+        {
+            renderer.ResizeViewport(width, height);
+        }
+
+        public void DrawLights(bool state)
+        {
+            drawLight = state;
+            renderer.DrawLights(state);
         }
 
         public void ClearWorld()
@@ -50,6 +63,8 @@ namespace Engine
             assetManager.LoadEffect("shaders/SimpleSprite");
             assetManager.LoadEffect("shaders/ClearBuffers");
             assetManager.LoadEffect("shaders/DepthSprite");
+            assetManager.LoadEffect("shaders/ChannelRender");
+            assetManager.LoadEffect("shaders/PointLight");
         }
 
         /// <summary>

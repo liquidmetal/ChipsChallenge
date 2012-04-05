@@ -35,6 +35,11 @@
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.floorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateTestFloor = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCreateTestTeapot = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCreatePointLight = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolCommon = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -42,6 +47,7 @@
             this.splitSide = new System.Windows.Forms.SplitContainer();
             this.gridProperties = new System.Windows.Forms.PropertyGrid();
             this.formRenderer = new LevelEditor.FormRenderer();
+            this.mnuCreateCuboid = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.toolCommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -81,7 +87,9 @@
             // createToolStripMenuItem
             // 
             this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.floorToolStripMenuItem});
+            this.floorToolStripMenuItem,
+            this.testToolStripMenuItem,
+            this.lightsToolStripMenuItem});
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
             this.createToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.createToolStripMenuItem.Text = "Create";
@@ -91,7 +99,7 @@
             this.floorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCreateTestFloor});
             this.floorToolStripMenuItem.Name = "floorToolStripMenuItem";
-            this.floorToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.floorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.floorToolStripMenuItem.Text = "Floor >";
             // 
             // mnuCreateTestFloor
@@ -100,6 +108,45 @@
             this.mnuCreateTestFloor.Size = new System.Drawing.Size(126, 22);
             this.mnuCreateTestFloor.Text = "Test Floor";
             this.mnuCreateTestFloor.Click += new System.EventHandler(this.mnuCreateTestFloor_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuCreateCuboid,
+            this.cylinderToolStripMenuItem,
+            this.mnuCreateTestTeapot});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // cylinderToolStripMenuItem
+            // 
+            this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
+            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cylinderToolStripMenuItem.Text = "Cylinder";
+            this.cylinderToolStripMenuItem.Click += new System.EventHandler(this.cylinderToolStripMenuItem_Click);
+            // 
+            // mnuCreateTestTeapot
+            // 
+            this.mnuCreateTestTeapot.Name = "mnuCreateTestTeapot";
+            this.mnuCreateTestTeapot.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreateTestTeapot.Text = "Teapot";
+            this.mnuCreateTestTeapot.Click += new System.EventHandler(this.mnuCreateTestTeapot_Click);
+            // 
+            // lightsToolStripMenuItem
+            // 
+            this.lightsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuCreatePointLight});
+            this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
+            this.lightsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lightsToolStripMenuItem.Text = "Lights";
+            // 
+            // mnuCreatePointLight
+            // 
+            this.mnuCreatePointLight.Name = "mnuCreatePointLight";
+            this.mnuCreatePointLight.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreatePointLight.Text = "Point light";
+            this.mnuCreatePointLight.Click += new System.EventHandler(this.mnuCreatePointLight_Click);
             // 
             // statusStrip
             // 
@@ -188,6 +235,13 @@
             this.formRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseMove);
             this.formRenderer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseUp);
             // 
+            // mnuCreateCuboid
+            // 
+            this.mnuCreateCuboid.Name = "mnuCreateCuboid";
+            this.mnuCreateCuboid.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreateCuboid.Text = "Cuboid";
+            this.mnuCreateCuboid.Click += new System.EventHandler(this.mnuCreateCuboid_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,6 +288,12 @@
         private System.Windows.Forms.ToolStripMenuItem floorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuCreateTestFloor;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cylinderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuCreateTestTeapot;
+        private System.Windows.Forms.ToolStripMenuItem lightsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuCreatePointLight;
+        private System.Windows.Forms.ToolStripMenuItem mnuCreateCuboid;
     }
 }
 

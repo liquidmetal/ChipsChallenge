@@ -16,7 +16,7 @@ namespace Engine.Entities
     /// <summary>
     /// The different types of floor that can exist
     /// </summary>
-    public enum FloorTypes { TestFloor };
+    public enum FloorTypes { Brown, Dirt, Grass, Plain, Stone, Wood, TestFloor };
 
     public class FloorTile : Entity
     {
@@ -36,6 +36,30 @@ namespace Engine.Entities
         {
             switch(m_eFloorType)
             {
+                case FloorTypes.Brown:
+                    Sprite = "floorBrown";
+                    break;
+
+                case FloorTypes.Dirt:
+                    Sprite = "floorDirt";
+                    break;
+
+                case FloorTypes.Grass:
+                    Sprite = "floorGrass";
+                    break;
+
+                case FloorTypes.Plain:
+                    Sprite = "floorPlain";
+                    break;
+
+                case FloorTypes.Stone:
+                    Sprite = "floorStone";
+                    break;
+
+                case FloorTypes.Wood:
+                    Sprite = "floorWood";
+                    break;
+
                 case FloorTypes.TestFloor:
                     Sprite = "floorTest";
                     break;

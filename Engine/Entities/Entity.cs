@@ -13,6 +13,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Engine.Entities
 {
+    public enum EntityType { Sprite, Light };
+
     public abstract class Entity
     {
         public abstract Dictionary<string, string> SerializeEntity();
@@ -21,9 +23,14 @@ namespace Engine.Entities
         protected bool m_bMirrorVertical;
 
         protected Vector2 m_vecPosition;
-        protected string m_strSprite;
         protected Color m_colorTint;
         protected string m_strName;
+        protected int m_iZ;
+
+        protected string m_strSprite;
+        protected string m_strHeightmap;
+        protected string m_strNormalmap;
+        protected EntityType m_etType;
 
         /// <summary>
         /// The position where this floor tile was placed
@@ -40,6 +47,18 @@ namespace Engine.Entities
             set { m_strSprite = value; }
         }
 
+        public string Heightmap
+        {
+            get { return m_strHeightmap; }
+            set { m_strHeightmap = value; }
+        }
+
+        public string Normalmap
+        {
+            get { return m_strNormalmap; }
+            set { m_strNormalmap = value; }
+        }
+
         public bool MirrorHorizontal
         {
             get { return m_bMirrorHorizontal; }
@@ -52,6 +71,12 @@ namespace Engine.Entities
             set { m_bMirrorVertical = value; }
         }
 
+        public int Z
+        {
+            get { return m_iZ; }
+            set { m_iZ = value; }
+        }
+
         public Color Tint
         {
             get { return m_colorTint; }
@@ -62,6 +87,11 @@ namespace Engine.Entities
         {
             get { return m_strName; }
             set { m_strName = value; }
+        }
+
+        public EntityType Type
+        {
+            get { return m_etType; }
         }
 
         public Entity()

@@ -4,10 +4,17 @@ sampler heightBuffer : register(s1);
 float2 position;
 float2 bufferSize;
 float2 texSize;
+float z;
 
-float4 PixelShaderFunction(float2 uv : TEXCOORD0, float4 col : COLOR0) : COLOR0
+struct PSO
 {
-	float4 ret;
+	float4 color : COLOR0;
+	float4 mask  : COLOR1;
+};
+
+PSO PixelShaderFunction(float2 uv : TEXCOORD0, float4 col : COLOR0)
+{
+	PSO ret;
 
 	float2 shifted;
 	float2 shiftedUnnormalized;
@@ -24,21 +31,22 @@ float4 PixelShaderFunction(float2 uv : TEXCOORD0, float4 col : COLOR0) : COLOR0
 	bufferPos = float3(shiftedUnnormalized.x, shiftedUnnormalized.y+bufferColor.r, bufferColor.r);
 	texturePos = float3(uv.x*texSize.x, uv.y*texSize.y+currentColor.r, currentColor.r);
 
-	float pyth;
-	float thresh;
+	//float pyth;
+	//float thresh;
 
 	//thresh = 2*(texturePos.z-bufferPos.z)*(texturePos.z-bufferPos.z);
 	//pyth = (texturePos.z-bufferPos.z)*(texturePos.z-bufferPos.z) + ((texturePos.y+position.y)-bufferPos.y)*((texturePos.y+position.y)-bufferPos.y);
 
 	if(bufferPos.y<=texturePos.y+position.y)
 	{
-		ret = currentColor;
-		ret.a = 0;
+		ret.color = currentColor;
+		ret.color.a = 1;
+		ret.mask = float4(1,1,1,1);
 	}
 	else
 	{
-		ret = bufferColor;
-		ret.a = 1;
+		ret.color = float4(0,0,0,0);//bufferColor;
+		ret.mask = float4(0,0,0,0);
 	}
 	
 
