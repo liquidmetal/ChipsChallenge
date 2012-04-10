@@ -16,6 +16,8 @@ using Engine.Entities;
 
 namespace Engine
 {
+    public enum RenderSceneType { Diffuse, Height, Normal };
+
     public class Renderer
     {
         AssetManager assetManager = null;
@@ -32,6 +34,7 @@ namespace Engine
         private RenderTarget2D temp;
 
         private bool m_bDrawLights;
+        private RenderSceneType m_rstType;          // Which pass to render out
 
         public Renderer(AssetManager tex, GraphicsDevice device)
         {
@@ -46,6 +49,11 @@ namespace Engine
         public void DrawLights(bool state)
         {
             m_bDrawLights = state;
+        }
+
+        public void SetRenderSceneType(RenderSceneType rst)
+        {
+            m_rstType = rst;
         }
 
         private void SetupRenderTargets()
@@ -269,7 +277,7 @@ namespace Engine
                     
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                     spriteBatch.Draw(lightPos, pos, light.Color);
-                    spriteBatch.Draw(lightBulb, new Vector2(pos.X, pos.Y - light.Z), light.Color);
+                    spriteBatch.Draw(lightBulb, new Vector2(pos.X, pos.Y - light.Z/1.414f), light.Color);
                     spriteBatch.End();
                 }
             }
@@ -277,9 +285,21 @@ namespace Engine
             graphicsDevice.SetRenderTarget(null);
             graphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            //channel.Parameters["channel"].SetValue(3);
-            //channel.Techniques[0].Passes[0].Apply();
-            spriteBatch.Draw(m_rtDif2, Vector2.Zero, Color.White);
+
+            switch(m_rstType)
+            {
+                case RenderSceneType.Diffuse:
+                    spriteBatch.Draw(m_rtDif2, Vector2.Zero, Color.White);
+                    break;
+
+                case RenderSceneType.Height:
+                    spriteBatch.Draw(m_rtDepthStencil, Vector2.Zero, Color.White);
+                    break;
+
+                case RenderSceneType.Normal:
+                    spriteBatch.Draw(m_rtNormal, Vector2.Zero, Color.White);
+                    break;
+            }
             spriteBatch.End();
 
             return true;

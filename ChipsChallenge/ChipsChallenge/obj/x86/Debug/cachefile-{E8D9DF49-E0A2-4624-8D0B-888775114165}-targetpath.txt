@@ -18,3 +18,9 @@ Content\sprites\test\cuboid\nrm.xnb
 Content\sprites\test\cylinder\dif.xnb
 Content\sprites\test\cylinder\hgt.xnb
 Content\sprites\test\cylinder\nrm.xnb
+Content\sprites\buildings\houseA\dif.xnb
+Content\sprites\buildings\houseA\hgt.xnb
+Content\sprites\buildings\houseA\nrm.xnb
+Content\sprites\test\plane\dif.xnb
+Content\sprites\test\plane\hgt.xnb
+Content\sprites\test\plane\nrm.xnb

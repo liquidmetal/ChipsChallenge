@@ -93,12 +93,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChipEngine.cs" />
+    <Compile Include="Entities\Buildings\HouseA.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\FloorTile.cs" />
     <Compile Include="Entities\Lights\Light.cs" />
     <Compile Include="Entities\Lights\PointLight.cs" />
     <Compile Include="Entities\Test\Cuboid.cs" />
     <Compile Include="Entities\Test\Cylinder.cs" />
+    <Compile Include="Entities\Test\Plane.cs" />
     <Compile Include="Entities\Test\Teapot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />

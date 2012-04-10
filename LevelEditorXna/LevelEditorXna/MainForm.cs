@@ -173,5 +173,15 @@ namespace LevelEditor
         {
             currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
         }
+
+        private void houseAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Buildings.HouseA());
+        }
+
+        private void planeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Test.Plane());
+        }
     }
 }

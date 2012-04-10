@@ -36,6 +36,7 @@
             this.floorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateTestFloor = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCreateCuboid = new System.Windows.Forms.ToolStripMenuItem();
             this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateTestTeapot = new System.Windows.Forms.ToolStripMenuItem();
             this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,8 +47,10 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.splitSide = new System.Windows.Forms.SplitContainer();
             this.gridProperties = new System.Windows.Forms.PropertyGrid();
+            this.buildingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.houseAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formRenderer = new LevelEditor.FormRenderer();
-            this.mnuCreateCuboid = new System.Windows.Forms.ToolStripMenuItem();
+            this.planeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.toolCommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -89,7 +92,8 @@
             this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.floorToolStripMenuItem,
             this.testToolStripMenuItem,
-            this.lightsToolStripMenuItem});
+            this.lightsToolStripMenuItem,
+            this.buildingsToolStripMenuItem});
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
             this.createToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.createToolStripMenuItem.Text = "Create";
@@ -112,12 +116,20 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.planeToolStripMenuItem,
             this.mnuCreateCuboid,
             this.cylinderToolStripMenuItem,
             this.mnuCreateTestTeapot});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.testToolStripMenuItem.Text = "Test";
+            // 
+            // mnuCreateCuboid
+            // 
+            this.mnuCreateCuboid.Name = "mnuCreateCuboid";
+            this.mnuCreateCuboid.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreateCuboid.Text = "Cuboid";
+            this.mnuCreateCuboid.Click += new System.EventHandler(this.mnuCreateCuboid_Click);
             // 
             // cylinderToolStripMenuItem
             // 
@@ -144,7 +156,7 @@
             // mnuCreatePointLight
             // 
             this.mnuCreatePointLight.Name = "mnuCreatePointLight";
-            this.mnuCreatePointLight.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreatePointLight.Size = new System.Drawing.Size(129, 22);
             this.mnuCreatePointLight.Text = "Point light";
             this.mnuCreatePointLight.Click += new System.EventHandler(this.mnuCreatePointLight_Click);
             // 
@@ -224,6 +236,21 @@
             this.gridProperties.Size = new System.Drawing.Size(130, 130);
             this.gridProperties.TabIndex = 0;
             // 
+            // buildingsToolStripMenuItem
+            // 
+            this.buildingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.houseAToolStripMenuItem});
+            this.buildingsToolStripMenuItem.Name = "buildingsToolStripMenuItem";
+            this.buildingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.buildingsToolStripMenuItem.Text = "Buildings";
+            // 
+            // houseAToolStripMenuItem
+            // 
+            this.houseAToolStripMenuItem.Name = "houseAToolStripMenuItem";
+            this.houseAToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.houseAToolStripMenuItem.Text = "House A";
+            this.houseAToolStripMenuItem.Click += new System.EventHandler(this.houseAToolStripMenuItem_Click);
+            // 
             // formRenderer
             // 
             this.formRenderer.Location = new System.Drawing.Point(0, 0);
@@ -235,12 +262,12 @@
             this.formRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseMove);
             this.formRenderer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseUp);
             // 
-            // mnuCreateCuboid
+            // planeToolStripMenuItem
             // 
-            this.mnuCreateCuboid.Name = "mnuCreateCuboid";
-            this.mnuCreateCuboid.Size = new System.Drawing.Size(152, 22);
-            this.mnuCreateCuboid.Text = "Cuboid";
-            this.mnuCreateCuboid.Click += new System.EventHandler(this.mnuCreateCuboid_Click);
+            this.planeToolStripMenuItem.Name = "planeToolStripMenuItem";
+            this.planeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.planeToolStripMenuItem.Text = "Plane";
+            this.planeToolStripMenuItem.Click += new System.EventHandler(this.planeToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -294,6 +321,9 @@
         private System.Windows.Forms.ToolStripMenuItem lightsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuCreatePointLight;
         private System.Windows.Forms.ToolStripMenuItem mnuCreateCuboid;
+        private System.Windows.Forms.ToolStripMenuItem buildingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem houseAToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem planeToolStripMenuItem;
     }
 }
 
