@@ -183,5 +183,58 @@ namespace LevelEditor
         {
             currentWorld.AddEntity(new Engine.Entities.Test.Plane());
         }
+
+        private void formRenderer_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case System.Windows.Forms.Keys.D1:
+                    formRenderer.OutputPass = RenderSceneType.Diffuse;
+                    break;
+
+                case System.Windows.Forms.Keys.D2:
+                    formRenderer.OutputPass = RenderSceneType.Height;
+                    break;
+
+                case System.Windows.Forms.Keys.D3:
+                    formRenderer.OutputPass = RenderSceneType.Normal;
+                    break;
+
+                case System.Windows.Forms.Keys.D4:
+                    formRenderer.OutputPass = RenderSceneType.Lights;
+                    break;
+            }
+            
+        }
+
+        private void formRenderer_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void diffuseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formRenderer.OutputPass = RenderSceneType.Diffuse;
+        }
+
+        private void heightmapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formRenderer.OutputPass = RenderSceneType.Height;
+        }
+
+        private void normalsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formRenderer.OutputPass = RenderSceneType.Normal;
+        }
+
+        private void lightingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formRenderer.OutputPass = RenderSceneType.Lights;
+        }
+
+        private void beautyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formRenderer.OutputPass = RenderSceneType.Beauty;
+        }
     }
 }

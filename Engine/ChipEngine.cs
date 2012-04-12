@@ -65,6 +65,7 @@ namespace Engine
             assetManager.LoadEffect("shaders/DepthSprite");
             assetManager.LoadEffect("shaders/ChannelRender");
             assetManager.LoadEffect("shaders/PointLight");
+            assetManager.LoadEffect("shaders/Combine");
         }
 
         /// <summary>
@@ -89,6 +90,11 @@ namespace Engine
         public void Render()
         {
             renderer.RenderWorld(currentWorld);
+        }
+
+        public void SetRenderSceneType(RenderSceneType rst)
+        {
+            renderer.SetRenderSceneType(rst);
         }
     }
 }

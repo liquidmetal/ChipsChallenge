@@ -16,7 +16,7 @@ using Engine.Entities;
 
 namespace Engine
 {
-    public enum RenderSceneType { Diffuse, Height, Normal };
+    public enum RenderSceneType { Beauty, Diffuse, Height, Normal, Lights };
 
     public class Renderer
     {
@@ -29,6 +29,8 @@ namespace Engine
         private RenderTarget2D m_rtDif2;            // Used to quick swapping
         private RenderTarget2D m_rtDepthStencil;
         private RenderTarget2D m_rtNormal;
+        private RenderTarget2D m_rtLights;          // The lighting pass (multiplier for each pixel)
+        private RenderTarget2D m_rtOverlay;         // stuff that's on top of everything else
 
         private RenderTarget2D finalResult;
         private RenderTarget2D temp;
@@ -42,6 +44,7 @@ namespace Engine
             graphicsDevice = device;
             m_posCamera = new Vector2(0, 0);
             m_bDrawLights = false;
+            m_rstType = RenderSceneType.Beauty;
 
             ResizeViewport(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
         }
@@ -71,6 +74,8 @@ namespace Engine
             m_rtDif2 = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             m_rtDepthStencil = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             m_rtNormal = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            m_rtLights = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            m_rtOverlay = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
 
             finalResult = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             temp = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
@@ -100,49 +105,42 @@ namespace Engine
             
         }
 
-        /// <summary>
-        /// Given a world object, the renderer draws it using the
-        /// XNA frameworks
-        /// </summary>
-        /// <param name="world">The world object to render</param>
-        /// <returns></returns>
-        public bool RenderWorld(World world)
+        private void ClearRenderTargets()
         {
-            world.SortEntities();
-            ClearScreen();
-
-            Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
-            Effect channel = assetManager.GetEffect("shaders/ChannelRender");
-            Effect depthSpriteShader = assetManager.GetEffect("shaders/DepthSprite");
-            Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
-
-            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
-
-            // Step 1: Generate a stencil of which pixels to render
-
-
-            // Draw the actual sprites
-            Color[] t = { Color.White, Color.Yellow, Color.Purple, Color.Blue };
-            int i = 0;
-
-
-
+            // The normal pass
             graphicsDevice.SetRenderTarget(m_rtNormal);
             graphicsDevice.Clear(Color.Transparent);
 
+            // The depth pass
             graphicsDevice.SetRenderTarget(m_rtDepthStencil);
             graphicsDevice.Clear(Color.Transparent);
 
+            // The diffuse pass
             graphicsDevice.SetRenderTarget(m_rtDif);
             graphicsDevice.Clear(Color.Black);
 
+            // The final result temporarily stored
             graphicsDevice.SetRenderTarget(finalResult);
             graphicsDevice.Clear(Color.Black);
 
-            List<Entity> lstEntities = world.GetEntities();
+            // The lighting pass
+            graphicsDevice.SetRenderTarget(m_rtLights);
+            graphicsDevice.Clear(Color.Transparent);
+
+            // The overlay pass
+            graphicsDevice.SetRenderTarget(m_rtOverlay);
+            graphicsDevice.Clear(Color.Transparent);
+        }
+
+        private void RenderEntities(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D temp)
+        {
+            Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
+            Effect depthSpriteShader = assetManager.GetEffect("shaders/DepthSprite");
+            Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+
             foreach (Entity ent in lstEntities)
             {
-                if(ent.Type!=EntityType.Sprite)
+                if (ent.Type != EntityType.Sprite)
                     continue;
 
                 // Gather information
@@ -150,10 +148,11 @@ namespace Engine
                 Texture2D texHeightmap = assetManager.GetHeightmap(ent.Sprite);
                 Texture2D texNormal = assetManager.GetNormalmap(ent.Sprite);
 
+                // This render target has to be made for every asset
                 RenderTarget2D mask = new RenderTarget2D(graphicsDevice, tex.Width, tex.Height);
 
-                Vector2 pos = ent.Position;
-                pos = pos + m_posCamera + viewportTrans;
+                // Gather information about the sprite
+                Vector2 pos = ent.Position + m_posCamera + viewportTrans;
 
                 SpriteEffects spriteEffects;
                 spriteEffects = ent.MirrorHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -175,7 +174,7 @@ namespace Engine
                 depthSpriteShader.Parameters["position"].SetValue(pos);
                 depthSpriteShader.Parameters["bufferSize"].SetValue(new Vector2(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height));
                 depthSpriteShader.Parameters["texSize"].SetValue(new Vector2(texHeightmap.Width, texHeightmap.Height));
-                graphicsDevice.Textures[1] = m_rtDepthStencil;
+                graphicsDevice.Textures[1] = hgtTarget;
                 depthSpriteShader.Techniques[0].Passes[0].Apply();
 
                 // Draw the sprite
@@ -184,7 +183,7 @@ namespace Engine
 
 
                 // Comp it all together onto the depth buffer
-                graphicsDevice.SetRenderTarget(m_rtDepthStencil);
+                graphicsDevice.SetRenderTarget(hgtTarget);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 spriteBatch.Draw(temp, Vector2.Zero, Color.White);
                 spriteBatch.End();
@@ -211,7 +210,7 @@ namespace Engine
                 spriteBatch.End();
 
                 // Comp it al onto the normal buffer
-                graphicsDevice.SetRenderTarget(m_rtNormal);
+                graphicsDevice.SetRenderTarget(nrmTarget);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 spriteBatch.Draw(temp, Vector2.Zero, Color.White);
                 spriteBatch.End();
@@ -232,56 +231,125 @@ namespace Engine
                 spriteBatch.End();
 
                 // Comp it all onto the dif buffer
-                graphicsDevice.SetRenderTarget(finalResult);
+                graphicsDevice.SetRenderTarget(difTarget);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 spriteBatch.Draw(temp, Vector2.Zero, Color.White);
                 spriteBatch.End();
-
-                i++;
             }
+        }
 
-
-            // Render the lights!
+        private void RenderLights(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D lgtTarget, RenderTarget2D temp)
+        {
             
-            
-            Texture2D lightPos = assetManager.GetTexture("sprites/test/lightpos");
-            Texture2D lightBulb = assetManager.GetTexture("sprites/test/lightbulb");
             Effect pointLight = assetManager.GetEffect("shaders/PointLight");
+
+            Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+
             graphicsDevice.SetRenderTarget(null);
-            graphicsDevice.SetRenderTarget(m_rtDif2);
-            graphicsDevice.Clear(Color.Transparent);
             foreach (Entity ent in lstEntities)
             {
                 if (ent.Type != EntityType.Light)
                     continue;
 
+                graphicsDevice.SetRenderTarget(temp);
+                graphicsDevice.Clear(Color.Transparent);
+
                 Entities.Lights.Light light = (Entities.Lights.Light)ent;
                 Vector2 pos = light.Position + m_posCamera + viewportTrans;
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, pointLight);
-                graphicsDevice.Textures[1] = m_rtDepthStencil;
-                graphicsDevice.Textures[2] = m_rtNormal;
+                graphicsDevice.Textures[1] = hgtTarget;
+                graphicsDevice.Textures[2] = nrmTarget;
                 pointLight.Parameters["intensity"].SetValue(light.Intensity);
                 pointLight.Parameters["range"].SetValue(light.Range);
                 pointLight.Parameters["color"].SetValue(new Vector4(light.Color.R / 255.0f, light.Color.G / 255.0f, light.Color.B / 255.0f, light.Color.A / 255.0f));
                 pointLight.Parameters["pos"].SetValue(new Vector3(pos.X, pos.Y, light.Z));
                 pointLight.Parameters["size"].SetValue(new Vector2(m_rtDif2.Width, m_rtDif2.Height));
-                
+
                 Console.WriteLine("Applying the point light shader");
                 pointLight.Techniques[0].Passes[0].Apply();
-                spriteBatch.Draw(finalResult, Vector2.Zero, Color.White);
+                spriteBatch.Draw(difTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();
 
-                if (m_bDrawLights)
+                graphicsDevice.SetRenderTarget(lgtTarget);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                spriteBatch.Draw(temp, Vector2.Zero, Color.White);
+                spriteBatch.End();
+            }
+        }
+
+        /// <summary>
+        /// Given a world object, the renderer draws it using the
+        /// XNA frameworks
+        /// </summary>
+        /// <param name="world">The world object to render</param>
+        /// <returns></returns>
+        public bool RenderWorld(World world)
+        {
+            world.SortEntities();
+            ClearScreen();
+
+            Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
+            Effect channel = assetManager.GetEffect("shaders/ChannelRender");
+            
+            Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+
+            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+
+            // Step 1: Generate a stencil of which pixels to render
+
+
+            // Draw the actual sprites
+            Color[] t = { Color.White, Color.Yellow, Color.Purple, Color.Blue };
+            int i = 0;
+
+            ClearRenderTargets();
+
+            List<Entity> lstEntities = world.GetEntities();
+
+            // First pass: Draw the entities
+            // This pass generates the dif, nrm and hgt textures
+            // Objects intersect as if in 3D
+            RenderEntities(lstEntities, spriteBatch, m_rtDif, m_rtDepthStencil, m_rtNormal, temp);
+
+            // Render the lights!
+            RenderLights(lstEntities, spriteBatch, m_rtDif, m_rtDepthStencil, m_rtNormal, m_rtLights, temp);
+
+            // Render the overlays!
+            Texture2D lightPos = assetManager.GetTexture("sprites/test/lightpos");
+            Texture2D lightBulb = assetManager.GetTexture("sprites/test/lightbulb");
+            graphicsDevice.SetRenderTarget(m_rtOverlay);
+            if (m_bDrawLights)
+            {
+                foreach (Entity ent in lstEntities)
                 {
-                    
+                    if (ent.Type != EntityType.Light)
+                        continue;
+
+                    Entities.Lights.Light light = (Entities.Lights.Light)ent;
+                    Vector2 pos = light.Position + m_posCamera + viewportTrans;
+
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                     spriteBatch.Draw(lightPos, pos, light.Color);
-                    spriteBatch.Draw(lightBulb, new Vector2(pos.X, pos.Y - light.Z/1.414f), light.Color);
+                    spriteBatch.Draw(lightBulb, new Vector2(pos.X, pos.Y - light.Z / 1.414f), light.Color);
                     spriteBatch.End();
                 }
             }
 
+            ////////////////////////////////////////////////////////////////////
+            // finalResult stores the final beauty pass
+            // That is, a combination of the dif and the lighting outputs
+            graphicsDevice.SetRenderTarget(finalResult);
+            graphicsDevice.Textures[1] = m_rtLights;
+
+            Effect combine = assetManager.GetEffect("shaders/Combine");
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            combine.Techniques[0].Passes[0].Apply();
+            spriteBatch.Draw(m_rtDif, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
+            //////////////////////////////////////////////////////////////////
             graphicsDevice.SetRenderTarget(null);
             graphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
@@ -289,7 +357,7 @@ namespace Engine
             switch(m_rstType)
             {
                 case RenderSceneType.Diffuse:
-                    spriteBatch.Draw(m_rtDif2, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(m_rtDif, Vector2.Zero, Color.White);
                     break;
 
                 case RenderSceneType.Height:
@@ -299,7 +367,16 @@ namespace Engine
                 case RenderSceneType.Normal:
                     spriteBatch.Draw(m_rtNormal, Vector2.Zero, Color.White);
                     break;
+
+                case RenderSceneType.Lights:
+                    spriteBatch.Draw(m_rtLights, Vector2.Zero, Color.White);
+                    break;
+
+                case RenderSceneType.Beauty:
+                    spriteBatch.Draw(finalResult, Vector2.Zero, Color.White);
+                    break;
             }
+            spriteBatch.Draw(m_rtOverlay, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             return true;

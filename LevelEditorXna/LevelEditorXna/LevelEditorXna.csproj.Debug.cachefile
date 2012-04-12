@@ -5,6 +5,7 @@ Content\shaders\ClearBuffers.xnb
 Content\shaders\ChannelRender.xnb
 Content\shaders\NormalSprite.xnb
 Content\shaders\PointLight.xnb
+Content\shaders\Combine.xnb
 Content\floorTest.xnb
 Content\floorTest_heightmap.xnb
 Content\sprites\test\teapot\dif.xnb

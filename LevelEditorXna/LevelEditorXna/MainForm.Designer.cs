@@ -36,21 +36,27 @@
             this.floorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateTestFloor = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.planeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateCuboid = new System.Windows.Forms.ToolStripMenuItem();
             this.cylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateTestTeapot = new System.Windows.Forms.ToolStripMenuItem();
             this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreatePointLight = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.houseAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolCommon = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.splitSide = new System.Windows.Forms.SplitContainer();
             this.gridProperties = new System.Windows.Forms.PropertyGrid();
-            this.buildingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.houseAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.diffuseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.heightmapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.normalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beautyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formRenderer = new LevelEditor.FormRenderer();
-            this.planeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.toolCommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -66,7 +72,8 @@
             // 
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.createToolStripMenuItem});
+            this.createToolStripMenuItem,
+            this.renderToolStripMenuItem});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Size = new System.Drawing.Size(592, 24);
@@ -103,7 +110,7 @@
             this.floorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCreateTestFloor});
             this.floorToolStripMenuItem.Name = "floorToolStripMenuItem";
-            this.floorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.floorToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.floorToolStripMenuItem.Text = "Floor >";
             // 
             // mnuCreateTestFloor
@@ -121,27 +128,34 @@
             this.cylinderToolStripMenuItem,
             this.mnuCreateTestTeapot});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.testToolStripMenuItem.Text = "Test";
+            // 
+            // planeToolStripMenuItem
+            // 
+            this.planeToolStripMenuItem.Name = "planeToolStripMenuItem";
+            this.planeToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.planeToolStripMenuItem.Text = "Plane";
+            this.planeToolStripMenuItem.Click += new System.EventHandler(this.planeToolStripMenuItem_Click);
             // 
             // mnuCreateCuboid
             // 
             this.mnuCreateCuboid.Name = "mnuCreateCuboid";
-            this.mnuCreateCuboid.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreateCuboid.Size = new System.Drawing.Size(118, 22);
             this.mnuCreateCuboid.Text = "Cuboid";
             this.mnuCreateCuboid.Click += new System.EventHandler(this.mnuCreateCuboid_Click);
             // 
             // cylinderToolStripMenuItem
             // 
             this.cylinderToolStripMenuItem.Name = "cylinderToolStripMenuItem";
-            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cylinderToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.cylinderToolStripMenuItem.Text = "Cylinder";
             this.cylinderToolStripMenuItem.Click += new System.EventHandler(this.cylinderToolStripMenuItem_Click);
             // 
             // mnuCreateTestTeapot
             // 
             this.mnuCreateTestTeapot.Name = "mnuCreateTestTeapot";
-            this.mnuCreateTestTeapot.Size = new System.Drawing.Size(152, 22);
+            this.mnuCreateTestTeapot.Size = new System.Drawing.Size(118, 22);
             this.mnuCreateTestTeapot.Text = "Teapot";
             this.mnuCreateTestTeapot.Click += new System.EventHandler(this.mnuCreateTestTeapot_Click);
             // 
@@ -150,7 +164,7 @@
             this.lightsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCreatePointLight});
             this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
-            this.lightsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lightsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.lightsToolStripMenuItem.Text = "Lights";
             // 
             // mnuCreatePointLight
@@ -159,6 +173,21 @@
             this.mnuCreatePointLight.Size = new System.Drawing.Size(129, 22);
             this.mnuCreatePointLight.Text = "Point light";
             this.mnuCreatePointLight.Click += new System.EventHandler(this.mnuCreatePointLight_Click);
+            // 
+            // buildingsToolStripMenuItem
+            // 
+            this.buildingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.houseAToolStripMenuItem});
+            this.buildingsToolStripMenuItem.Name = "buildingsToolStripMenuItem";
+            this.buildingsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.buildingsToolStripMenuItem.Text = "Buildings";
+            // 
+            // houseAToolStripMenuItem
+            // 
+            this.houseAToolStripMenuItem.Name = "houseAToolStripMenuItem";
+            this.houseAToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.houseAToolStripMenuItem.Text = "House A";
+            this.houseAToolStripMenuItem.Click += new System.EventHandler(this.houseAToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -236,38 +265,66 @@
             this.gridProperties.Size = new System.Drawing.Size(130, 130);
             this.gridProperties.TabIndex = 0;
             // 
-            // buildingsToolStripMenuItem
+            // renderToolStripMenuItem
             // 
-            this.buildingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.houseAToolStripMenuItem});
-            this.buildingsToolStripMenuItem.Name = "buildingsToolStripMenuItem";
-            this.buildingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.buildingsToolStripMenuItem.Text = "Buildings";
+            this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beautyToolStripMenuItem,
+            this.diffuseToolStripMenuItem,
+            this.heightmapToolStripMenuItem,
+            this.normalsToolStripMenuItem,
+            this.lightingToolStripMenuItem});
+            this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
+            this.renderToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.renderToolStripMenuItem.Text = "Render";
             // 
-            // houseAToolStripMenuItem
+            // diffuseToolStripMenuItem
             // 
-            this.houseAToolStripMenuItem.Name = "houseAToolStripMenuItem";
-            this.houseAToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.houseAToolStripMenuItem.Text = "House A";
-            this.houseAToolStripMenuItem.Click += new System.EventHandler(this.houseAToolStripMenuItem_Click);
+            this.diffuseToolStripMenuItem.Name = "diffuseToolStripMenuItem";
+            this.diffuseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.diffuseToolStripMenuItem.Text = "Diffuse";
+            this.diffuseToolStripMenuItem.Click += new System.EventHandler(this.diffuseToolStripMenuItem_Click);
+            // 
+            // heightmapToolStripMenuItem
+            // 
+            this.heightmapToolStripMenuItem.Name = "heightmapToolStripMenuItem";
+            this.heightmapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.heightmapToolStripMenuItem.Text = "Heightmap";
+            this.heightmapToolStripMenuItem.Click += new System.EventHandler(this.heightmapToolStripMenuItem_Click);
+            // 
+            // normalsToolStripMenuItem
+            // 
+            this.normalsToolStripMenuItem.Name = "normalsToolStripMenuItem";
+            this.normalsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalsToolStripMenuItem.Text = "Normals";
+            this.normalsToolStripMenuItem.Click += new System.EventHandler(this.normalsToolStripMenuItem_Click);
+            // 
+            // lightingToolStripMenuItem
+            // 
+            this.lightingToolStripMenuItem.Name = "lightingToolStripMenuItem";
+            this.lightingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lightingToolStripMenuItem.Text = "Lighting";
+            this.lightingToolStripMenuItem.Click += new System.EventHandler(this.lightingToolStripMenuItem_Click);
+            // 
+            // beautyToolStripMenuItem
+            // 
+            this.beautyToolStripMenuItem.Name = "beautyToolStripMenuItem";
+            this.beautyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.beautyToolStripMenuItem.Text = "Beauty";
+            this.beautyToolStripMenuItem.Click += new System.EventHandler(this.beautyToolStripMenuItem_Click);
             // 
             // formRenderer
             // 
             this.formRenderer.Location = new System.Drawing.Point(0, 0);
             this.formRenderer.Name = "formRenderer";
+            this.formRenderer.OutputPass = Engine.RenderSceneType.Diffuse;
             this.formRenderer.Size = new System.Drawing.Size(251, 220);
             this.formRenderer.TabIndex = 0;
             this.formRenderer.Text = "formRenderer2";
+            this.formRenderer.Click += new System.EventHandler(this.formRenderer_Click);
+            this.formRenderer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.formRenderer_KeyDown);
             this.formRenderer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseDown);
             this.formRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseMove);
             this.formRenderer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.formRenderer_MouseUp);
-            // 
-            // planeToolStripMenuItem
-            // 
-            this.planeToolStripMenuItem.Name = "planeToolStripMenuItem";
-            this.planeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.planeToolStripMenuItem.Text = "Plane";
-            this.planeToolStripMenuItem.Click += new System.EventHandler(this.planeToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -324,6 +381,12 @@
         private System.Windows.Forms.ToolStripMenuItem buildingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem houseAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem planeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem diffuseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem heightmapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem normalsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lightingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem beautyToolStripMenuItem;
     }
 }
 

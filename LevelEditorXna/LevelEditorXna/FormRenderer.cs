@@ -21,6 +21,8 @@ namespace LevelEditor
         BasicEffect effect;
         Stopwatch timer;
 
+        Engine.RenderSceneType rst = RenderSceneType.Diffuse;
+
         ChipEngine engine = null;
 
         public World CurrentWorld
@@ -33,6 +35,12 @@ namespace LevelEditor
             get { return engine.GetRenderer(); }
         }
 
+        public Engine.RenderSceneType OutputPass
+        {
+            get { return rst;  }
+            set { rst = value; if(engine!=null) engine.SetRenderSceneType(rst); }
+        }
+
         /// <summary>
         /// Initializes the control.
         /// </summary>
@@ -40,6 +48,7 @@ namespace LevelEditor
         {
             engine = new ChipEngine(GraphicsDevice, new ContentManager(this.Services, "Content"));
             engine.DrawLights(true);
+            OutputPass = RenderSceneType.Diffuse;
             this.OnResize(null);
 
             // Start the animation timer.

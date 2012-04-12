@@ -61,7 +61,16 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\PointLight.xnb</Output>
-      <Time>2012-04-09T22:08:40.298994-07:00</Time>
+      <Time>2012-04-11T19:54:21.3356423-07:00</Time>
+    </Item>
+    <Item>
+      <Source>shaders\Combine.fx</Source>
+      <Name>shaders\Combine</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\Combine.xnb</Output>
+      <Time>2012-04-11T20:32:53.9679173-07:00</Time>
     </Item>
     <Item>
       <Source>floorTest.png</Source>
