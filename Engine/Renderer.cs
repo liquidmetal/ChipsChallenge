@@ -23,6 +23,9 @@ namespace Engine
         AssetManager assetManager = null;
         GraphicsDevice graphicsDevice = null;
 
+        Color m_colAmbient;
+        float m_fAmbientIntensity = 0.1f;
+
         Vector2 m_posCamera;
 
         private RenderTarget2D m_rtDif;
@@ -45,6 +48,8 @@ namespace Engine
             m_posCamera = new Vector2(0, 0);
             m_bDrawLights = false;
             m_rstType = RenderSceneType.Beauty;
+
+            m_colAmbient = new Color(1f, 1f, 1f, 1.0f);
 
             ResizeViewport(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
         }
@@ -345,6 +350,7 @@ namespace Engine
             Effect combine = assetManager.GetEffect("shaders/Combine");
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            combine.Parameters["scalarAdd"].SetValue(m_colAmbient.ToVector4() * m_fAmbientIntensity);
             combine.Techniques[0].Passes[0].Apply();
             spriteBatch.Draw(m_rtDif, Vector2.Zero, Color.White);
             spriteBatch.End();
