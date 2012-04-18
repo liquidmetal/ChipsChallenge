@@ -41,6 +41,9 @@ namespace Engine
         private bool m_bDrawLights;
         private RenderSceneType m_rstType;          // Which pass to render out
 
+        private Matrix world, view, projection;     // Holds the important matrices for simulation
+        private Matrix forward, inverse;            // Holds the combined matrices
+
         public Renderer(AssetManager tex, GraphicsDevice device)
         {
             assetManager = tex;
@@ -84,12 +87,57 @@ namespace Engine
 
             finalResult = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             temp = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
+
+            UpdateMatrices();
+        }
+
+        private void UpdateMatrices()
+        {
+            // Update the important matrices
+            world = Matrix.Identity;
+            view = Matrix.CreateLookAt(new Vector3(20 + m_posCamera.X, m_posCamera.Y + 20, 20), new Vector3(m_posCamera.X, m_posCamera.Y, 0), new Vector3(0, 0, 1));
+            projection = Matrix.CreateOrthographic(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height, 0, 1);
+
+            // TODO confirm if this is the right order
+            forward = Matrix.Multiply(Matrix.Multiply(world, view), projection);
+            inverse = Matrix.Invert(forward);
+        }
+
+        public Vector2 Project(Vector3 vec)
+        {
+            Vector3 toRet = graphicsDevice.Viewport.Project(vec, projection, view, world);
+            Vector2 ret = new Vector2(toRet.X, toRet.Y);
+
+            return ret;
+        }
+
+        public Vector3 Unproject(Vector2 vec)
+        {
+            Vector3 posA = graphicsDevice.Viewport.Unproject(new Vector3(vec.X, vec.Y, 1), projection, view, world);
+            Vector3 posB = graphicsDevice.Viewport.Unproject(new Vector3(vec.X, vec.Y, 0), projection, view, world);
+
+            // Now, we need to bring this to the z=0 plane
+            Vector3 direction = Vector3.Normalize(posB - posA);
+            Ray r = new Ray(posA, direction);
+
+            // The Z plane
+            Vector3 n = new Vector3(0, 0, 1);
+            Plane p = new Plane(n, 0);
+
+            float? d = r.Intersects(p);
+
+            // calcuate distance of plane intersection point from ray origin
+            double denominator = Vector3.Dot(p.Normal, r.Direction);
+            double numerator = Vector3.Dot(p.Normal, r.Position) + p.D;
+            double t = -(numerator / denominator);
+            
+            return posA + direction*(float)t;
         }
 
         public Vector2 CameraPosition
         {
             get { return m_posCamera; }
-            set { m_posCamera = value; }
+            set { m_posCamera = value; UpdateMatrices();  }
         }
 
         private void ClearScreen()
@@ -139,8 +187,9 @@ namespace Engine
 
         private void RenderEntities(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D temp)
         {
-            Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
-            Effect depthSpriteShader = assetManager.GetEffect("shaders/DepthSprite");
+            Effect shader = assetManager.GetEffect("shaders/sprite/SimpleSprite");
+            Effect heightSpriteShader = assetManager.GetEffect("shaders/sprite/HeightSprite");
+            Effect depthSpriteShader = assetManager.GetEffect("shaders/sprite/DepthSprite");
             Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
 
             foreach (Entity ent in lstEntities)
@@ -157,7 +206,8 @@ namespace Engine
                 RenderTarget2D mask = new RenderTarget2D(graphicsDevice, tex.Width, tex.Height);
 
                 // Gather information about the sprite
-                Vector2 pos = ent.Position + m_posCamera + viewportTrans;
+                Vector2 pos = Project(new Vector3(ent.Position.X, ent.Position.Y, ent.Z));// +m_posCamera + viewportTrans;
+                //pos.Y -= (float)Math.Sqrt(ent.Z);
 
                 SpriteEffects spriteEffects;
                 spriteEffects = ent.MirrorHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -183,6 +233,8 @@ namespace Engine
                 depthSpriteShader.Techniques[0].Passes[0].Apply();
 
                 // Draw the sprite
+                heightSpriteShader.Parameters["z"].SetValue(ent.Z);
+                heightSpriteShader.Techniques[0].Passes[0].Apply();
                 spriteBatch.Draw(texHeightmap, pos, Color.White);
                 spriteBatch.End();
 
@@ -246,9 +298,14 @@ namespace Engine
         private void RenderLights(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D lgtTarget, RenderTarget2D temp)
         {
             
-            Effect pointLight = assetManager.GetEffect("shaders/PointLight");
+            Effect pointLight = assetManager.GetEffect("shaders/light/PointLight");
 
             Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+            Vector2 trans = viewportTrans + m_posCamera;
+
+            // First, we need to generate a proper unproject matrix so we can 
+            // convert each point into an appropriate 3D point inside the 
+            // shader
 
             graphicsDevice.SetRenderTarget(null);
             foreach (Entity ent in lstEntities)
@@ -260,7 +317,7 @@ namespace Engine
                 graphicsDevice.Clear(Color.Transparent);
 
                 Entities.Lights.Light light = (Entities.Lights.Light)ent;
-                Vector2 pos = light.Position + m_posCamera + viewportTrans;
+                Vector2 pos = Project(new Vector3(ent.Position.X, ent.Position.Y, ent.Z));
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, pointLight);
                 graphicsDevice.Textures[1] = hgtTarget;
@@ -268,10 +325,16 @@ namespace Engine
                 pointLight.Parameters["intensity"].SetValue(light.Intensity);
                 pointLight.Parameters["range"].SetValue(light.Range);
                 pointLight.Parameters["color"].SetValue(new Vector4(light.Color.R / 255.0f, light.Color.G / 255.0f, light.Color.B / 255.0f, light.Color.A / 255.0f));
-                pointLight.Parameters["pos"].SetValue(new Vector3(pos.X, pos.Y, light.Z));
-                pointLight.Parameters["size"].SetValue(new Vector2(m_rtDif2.Width, m_rtDif2.Height));
 
-                Console.WriteLine("Applying the point light shader");
+                // The position needs to be in screen space for this to work
+                // So - we do that here
+                pointLight.Parameters["pos"].SetValue(pos);
+                pointLight.Parameters["z"].SetValue(ent.Z);
+
+
+                pointLight.Parameters["size"].SetValue(new Vector2(m_rtDif2.Width, m_rtDif2.Height));
+                pointLight.Parameters["unproject"].SetValue(inverse);
+
                 pointLight.Techniques[0].Passes[0].Apply();
                 spriteBatch.Draw(difTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();
@@ -280,6 +343,7 @@ namespace Engine
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                 spriteBatch.Draw(temp, Vector2.Zero, Color.White);
                 spriteBatch.End();
+                
             }
         }
 
@@ -294,7 +358,7 @@ namespace Engine
             world.SortEntities();
             ClearScreen();
 
-            Effect shader = assetManager.GetEffect("shaders/SimpleSprite");
+            Effect shader = assetManager.GetEffect("shaders/sprite/SimpleSprite");
             Effect channel = assetManager.GetEffect("shaders/ChannelRender");
             
             Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
@@ -326,19 +390,20 @@ namespace Engine
             graphicsDevice.SetRenderTarget(m_rtOverlay);
             if (m_bDrawLights)
             {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 foreach (Entity ent in lstEntities)
                 {
                     if (ent.Type != EntityType.Light)
                         continue;
 
                     Entities.Lights.Light light = (Entities.Lights.Light)ent;
-                    Vector2 pos = light.Position + m_posCamera + viewportTrans;
+                    Vector2 posBase = Project(new Vector3(light.Position.X, light.Position.Y, 0));
+                    Vector2 posBulb = Project(new Vector3(light.Position.X, light.Position.Y, light.Z));
 
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    spriteBatch.Draw(lightPos, pos, light.Color);
-                    spriteBatch.Draw(lightBulb, new Vector2(pos.X, pos.Y - light.Z / 1.414f), light.Color);
-                    spriteBatch.End();
+                    spriteBatch.Draw(lightPos, posBase, light.Color);
+                    spriteBatch.Draw(lightBulb, posBulb, light.Color);
                 }
+                spriteBatch.End();
             }
 
             ////////////////////////////////////////////////////////////////////
@@ -390,9 +455,9 @@ namespace Engine
 
         public Entity GetEntityAtPosition(World world, int x, int y)
         {
-            Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
-            Vector2 clickPos = new Vector2(x - m_posCamera.X - viewportTrans.X, y - m_posCamera.Y - viewportTrans.Y);
-            Console.WriteLine(clickPos);
+            //Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+            //Vector2 clickPos = new Vector2(x - m_posCamera.X - viewportTrans.X, y - m_posCamera.Y - viewportTrans.Y);
+            //Console.WriteLine(clickPos);
             foreach (Entity ent in world.GetEntities())
             {
                 Vector2 pos = ent.Position;
@@ -403,7 +468,7 @@ namespace Engine
                     rect = new Rectangle((int)pos.X, (int)pos.Y, tex.Width, tex.Height);
                 }
                 
-                if (rect.Contains((int)clickPos.X, (int)clickPos.Y))
+                if (rect.Contains((int)x, (int)y))
                     return ent;
             }
 

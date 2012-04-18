@@ -47,14 +47,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shaders\SimpleSprite.fx">
+    <Compile Include="shaders\sprite\SimpleSprite.fx">
       <Name>SimpleSprite</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shaders\DepthSprite.fx">
+    <Compile Include="shaders\sprite\DepthSprite.fx">
       <Name>DepthSprite</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
@@ -103,7 +103,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shaders\NormalSprite.fx">
+    <Compile Include="shaders\sprite\NormalSprite.fx">
       <Name>NormalSprite</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
@@ -124,7 +124,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shaders\PointLight.fx">
+    <Compile Include="shaders\light\PointLight.fx">
       <Name>PointLight</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
@@ -210,6 +210,37 @@
       <Name>Combine</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="shaders\light\DirectionalLight.fx">
+      <Name>DirectionalLight</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="shaders\sprite\HeightSprite.fx">
+      <Name>HeightSprite</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sprites\streets\modern\straight-x\dif.png">
+      <Name>dif</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="sprites\streets\modern\straight-x\hgt.png">
+      <Name>hgt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="sprites\streets\modern\straight-x\nrm.png">
+      <Name>nrm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

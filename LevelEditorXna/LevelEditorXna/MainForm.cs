@@ -45,6 +45,9 @@ namespace LevelEditor
 
             currentWorld = formRenderer.CurrentWorld;
             currentRenderer = formRenderer.CurrentRenderer;
+
+            currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
+            currentWorld.AddEntity(new Engine.Entities.Lights.PointLight());
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -108,10 +111,11 @@ namespace LevelEditor
         private void formRenderer_MouseDown(object sender, MouseEventArgs e)
         {
             // Do stuff based on the current state
+            Vector3 worldPos = formRenderer.CurrentRenderer.Unproject(new Vector2(e.X, e.Y));
 
-            m_ptLastMouseClick = new Vector2(e.X, e.Y);
+            m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
 
-            Entity ent = currentRenderer.GetEntityAtPosition(currentWorld, e.X, e.Y);
+            Entity ent = currentRenderer.GetEntityAtPosition(currentWorld, (int)worldPos.X, (int)worldPos.Y);
 
             m_selectedEntity = ent;
             gridProperties.SelectedObject = m_selectedEntity;
@@ -120,17 +124,20 @@ namespace LevelEditor
         private void formRenderer_MouseMove(object sender, MouseEventArgs e)
         {
             // Do stuff based on the current state
+            Vector3 worldPos = formRenderer.CurrentRenderer.Unproject(new Vector2(e.X, e.Y));
 
             // If the middle button is pressed, we're panning the shot
             if(e.Button == System.Windows.Forms.MouseButtons.Middle)
             {
                 Vector2 camPos = currentRenderer.CameraPosition;
-                camPos.X += (e.X - m_ptLastMouseClick.X);
-                camPos.Y += (e.Y - m_ptLastMouseClick.Y);
+                camPos.X -= (worldPos.X - m_ptLastMouseClick.X);
+                camPos.Y -= (worldPos.Y - m_ptLastMouseClick.Y);
 
                 currentRenderer.CameraPosition = camPos;
 
-                m_ptLastMouseClick = new Vector2(e.X, e.Y);
+                formRenderer.Cursor = Cursors.SizeAll;
+
+                m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
             }
 
             // If the left button is pressed && an object is selected
@@ -139,19 +146,23 @@ namespace LevelEditor
             {
                 Vector2 pos = m_selectedEntity.Position;
 
-                pos.X += (e.X - m_ptLastMouseClick.X);
-                pos.Y += (e.Y - m_ptLastMouseClick.Y);
+                pos.X += (worldPos.X - m_ptLastMouseClick.X);
+                pos.Y += (worldPos.Y - m_ptLastMouseClick.Y);
 
                 m_selectedEntity.Position = pos;
 
-                m_ptLastMouseClick = new Vector2(e.X, e.Y);
+                m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
             }
+
+            lblMousePosition.Text = "(" + e.X + ", " + e.Y + ")";
+            lblWorldPosition.Text = "(" + (int)worldPos.X + ", " + (int)worldPos.Y + ", " + (int)worldPos.Z + ")";
         }
 
         private void formRenderer_MouseUp(object sender, MouseEventArgs e)
         {
             // Do stuff based on the current state
             gridProperties.SelectedObject = m_selectedEntity;
+            formRenderer.Cursor = Cursors.Arrow;
         }
 
         private void cylinderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -184,26 +195,37 @@ namespace LevelEditor
             currentWorld.AddEntity(new Engine.Entities.Test.Plane());
         }
 
-        private void formRenderer_KeyDown(object sender, KeyEventArgs e)
+        public void SetDisplayPass(RenderSceneType rst)
         {
-            switch(e.KeyCode)
+            formRenderer.OutputPass = rst;
+
+            switch (rst)
             {
-                case System.Windows.Forms.Keys.D1:
-                    formRenderer.OutputPass = RenderSceneType.Diffuse;
+                case RenderSceneType.Beauty:
+                    lblOutputPass.Text = "BTY";
                     break;
 
-                case System.Windows.Forms.Keys.D2:
-                    formRenderer.OutputPass = RenderSceneType.Height;
+                case RenderSceneType.Diffuse:
+                    lblOutputPass.Text = "DIF";
                     break;
 
-                case System.Windows.Forms.Keys.D3:
-                    formRenderer.OutputPass = RenderSceneType.Normal;
+                case RenderSceneType.Height:
+                    lblOutputPass.Text = "HGT";
                     break;
 
-                case System.Windows.Forms.Keys.D4:
-                    formRenderer.OutputPass = RenderSceneType.Lights;
+                case RenderSceneType.Lights:
+                    lblOutputPass.Text = "LGT";
+                    break;
+
+                case RenderSceneType.Normal:
+                    lblOutputPass.Text = "NRM";
                     break;
             }
+        }
+
+        private void formRenderer_KeyDown(object sender, KeyEventArgs e)
+        {
+            
             
         }
 
@@ -214,27 +236,79 @@ namespace LevelEditor
 
         private void diffuseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formRenderer.OutputPass = RenderSceneType.Diffuse;
+            SetDisplayPass(RenderSceneType.Diffuse);
         }
 
         private void heightmapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formRenderer.OutputPass = RenderSceneType.Height;
+            SetDisplayPass(RenderSceneType.Height);
         }
 
         private void normalsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formRenderer.OutputPass = RenderSceneType.Normal;
+            SetDisplayPass(RenderSceneType.Normal);
         }
 
         private void lightingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formRenderer.OutputPass = RenderSceneType.Lights;
+            SetDisplayPass(RenderSceneType.Lights);
         }
 
         private void beautyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formRenderer.OutputPass = RenderSceneType.Beauty;
+            SetDisplayPass(RenderSceneType.Beauty);
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case System.Windows.Forms.Keys.A:
+                    if (m_selectedEntity != null)
+                        m_selectedEntity.Z += 1;
+                    e.Handled = true;
+                    break;
+
+                case System.Windows.Forms.Keys.Z:
+                    if (m_selectedEntity != null && m_selectedEntity.Z>0)
+                        m_selectedEntity.Z -= 1;
+                    e.Handled = true;
+                    break;
+
+                case System.Windows.Forms.Keys.Left:
+                    if (m_selectedEntity != null)
+                        m_selectedEntity.Position = new Vector2(m_selectedEntity.Position.X-1, m_selectedEntity.Position.Y);
+                    e.Handled = true;
+                    break;
+
+                case System.Windows.Forms.Keys.Right:
+                    if (m_selectedEntity != null)
+                        m_selectedEntity.Position = new Vector2(m_selectedEntity.Position.X + 1, m_selectedEntity.Position.Y);
+                    e.Handled = true;
+                    break;
+
+                case System.Windows.Forms.Keys.Up:
+                    if (m_selectedEntity != null)
+                        m_selectedEntity.Position = new Vector2(m_selectedEntity.Position.X, m_selectedEntity.Position.Y - 1);
+                    e.Handled = true;
+                    break;
+
+                case System.Windows.Forms.Keys.Down:
+                    if (m_selectedEntity != null)
+                        m_selectedEntity.Position = new Vector2(m_selectedEntity.Position.X, m_selectedEntity.Position.Y + 1);
+                    e.Handled = true;
+                    break;
+            }
+
+            if (e.Handled == true)
+            {
+                gridProperties.SelectedObject = m_selectedEntity;
+            }
+        }
+
+        private void straightXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentWorld.AddEntity(new Engine.Entities.Streets.Modern.StreetStraightX());
         }
     }
 }

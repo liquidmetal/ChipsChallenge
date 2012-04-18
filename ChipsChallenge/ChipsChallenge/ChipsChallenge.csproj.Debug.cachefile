@@ -1,11 +1,13 @@
 Content\wallA.xnb
-Content\shaders\SimpleSprite.xnb
-Content\shaders\DepthSprite.xnb
+Content\shaders\sprite\SimpleSprite.xnb
+Content\shaders\sprite\DepthSprite.xnb
 Content\shaders\ClearBuffers.xnb
 Content\shaders\ChannelRender.xnb
-Content\shaders\NormalSprite.xnb
-Content\shaders\PointLight.xnb
+Content\shaders\sprite\NormalSprite.xnb
+Content\shaders\light\PointLight.xnb
 Content\shaders\Combine.xnb
+Content\shaders\light\DirectionalLight.xnb
+Content\shaders\sprite\HeightSprite.xnb
 Content\floorTest.xnb
 Content\floorTest_heightmap.xnb
 Content\sprites\test\teapot\dif.xnb
@@ -25,3 +27,6 @@ Content\sprites\buildings\houseA\nrm.xnb
 Content\sprites\test\plane\dif.xnb
 Content\sprites\test\plane\hgt.xnb
 Content\sprites\test\plane\nrm.xnb
+Content\sprites\streets\modern\straight-x\dif.xnb
+Content\sprites\streets\modern\straight-x\hgt.xnb
+Content\sprites\streets\modern\straight-x\nrm.xnb

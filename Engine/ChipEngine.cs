@@ -60,11 +60,12 @@ namespace Engine
 
         private void LoadEffects()
         {
-            assetManager.LoadEffect("shaders/SimpleSprite");
             assetManager.LoadEffect("shaders/ClearBuffers");
-            assetManager.LoadEffect("shaders/DepthSprite");
+            assetManager.LoadEffect("shaders/sprite/SimpleSprite");
+            assetManager.LoadEffect("shaders/sprite/DepthSprite");
+            assetManager.LoadEffect("shaders/sprite/HeightSprite");
             assetManager.LoadEffect("shaders/ChannelRender");
-            assetManager.LoadEffect("shaders/PointLight");
+            assetManager.LoadEffect("shaders/light/PointLight");
             assetManager.LoadEffect("shaders/Combine");
         }
 
@@ -95,6 +96,11 @@ namespace Engine
         public void SetRenderSceneType(RenderSceneType rst)
         {
             renderer.SetRenderSceneType(rst);
+        }
+
+        public Vector3 Unproject(Vector2 pos)
+        {
+            return renderer.Unproject(pos);
         }
     }
 }

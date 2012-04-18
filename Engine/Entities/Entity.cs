@@ -74,7 +74,7 @@ namespace Engine.Entities
         public int Z
         {
             get { return m_iZ; }
-            set { m_iZ = value; }
+            set { if (value >= 0) m_iZ = value; else m_iZ = 0; }
         }
 
         public Color Tint

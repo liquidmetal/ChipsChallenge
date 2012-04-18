@@ -6,8 +6,6 @@ D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChal
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\obj\x86\Debug\ChipsChallenge.pdb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\wallA.xnb
-D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\SimpleSprite.xnb
-D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\DepthSprite.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\ClearBuffers.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\floorTest_heightmap.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\ChannelRender.xnb
@@ -17,10 +15,8 @@ D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\s
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\teapot\hgt.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\teapot\nrm.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\teapot\dif.xnb
-D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\NormalSprite.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\lightpos.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\lightbulb.xnb
-D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\PointLight.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\cuboid\dif.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\cuboid\hgt.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\cuboid\nrm.xnb
@@ -31,3 +27,12 @@ D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\s
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\plane\hgt.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\test\plane\nrm.xnb
 D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\Combine.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\sprite\SimpleSprite.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\sprite\DepthSprite.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\sprite\NormalSprite.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\light\PointLight.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\light\DirectionalLight.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\shaders\sprite\HeightSprite.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\streets\modern\straight-x\dif.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\streets\modern\straight-x\hgt.xnb
+D:\Projects\ChipsChallenge\ChipsChallenge\ChipsChallenge\bin\x86\Debug\Content\sprites\streets\modern\straight-x\nrm.xnb
