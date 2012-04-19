@@ -1,8 +1,9 @@
 struct PixelShaderOutput
 {
-	float4 color : COLOR0;		// Standard RGBA
-	float4 depth : COLOR1;		// 24bits for 'height', 8 bits for stencil
-	//float4 normal: COLOR2;	// 24 bits for normal
+	float4 rt1 : COLOR0;
+	float4 rt2 : COLOR1;
+	float4 rt3 : COLOR2;
+	float4 rt4 : COLOR3;
 };
 
 float4 VertexShaderFunction(float3 Position : POSITION0) : POSITION0
@@ -14,15 +15,10 @@ PixelShaderOutput PixelShaderFunction()
 {
     PixelShaderOutput ret;
 
-	ret.color = 0.0f;
-	ret.color.a = 0.0f;
-
-	// Set depth to 0 and stencil to 1 (draw all)
-	ret.depth = float4(0, 0, 0, 1);
-
-	//ret.normal.rgb = 0.5f;
-
-	
+	ret.rt1 = float4(0,0,0,0);
+	ret.rt2 = float4(0,0,0,0);
+	ret.rt3 = float4(0,0,0,0);
+	ret.rt4 = float4(0,0,0,0);
 
 	return ret;
 }

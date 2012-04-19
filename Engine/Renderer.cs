@@ -34,6 +34,7 @@ namespace Engine
         private RenderTarget2D m_rtNormal;
         private RenderTarget2D m_rtLights;          // The lighting pass (multiplier for each pixel)
         private RenderTarget2D m_rtOverlay;         // stuff that's on top of everything else
+        private RenderTarget2D m_rtSpc;
 
         private RenderTarget2D finalResult;
         private RenderTarget2D temp;
@@ -84,9 +85,12 @@ namespace Engine
             m_rtNormal = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             m_rtLights = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             m_rtOverlay = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            m_rtSpc = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
 
             finalResult = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+
             temp = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
+            //tempA = new RenderTarget2D(graphicsDevice, graphicsDevice.PresentationParameters.BackBufferWidth, graphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.DiscardContents);
 
             UpdateMatrices();
         }
@@ -178,6 +182,10 @@ namespace Engine
 
             // The lighting pass
             graphicsDevice.SetRenderTarget(m_rtLights);
+            graphicsDevice.Clear(Color.Transparent);
+
+            // The specular pass
+            graphicsDevice.SetRenderTarget(m_rtSpc);
             graphicsDevice.Clear(Color.Transparent);
 
             // The overlay pass
@@ -295,9 +303,8 @@ namespace Engine
             }
         }
 
-        private void RenderLights(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D lgtTarget, RenderTarget2D temp)
+        private void RenderLights(List<Entity> lstEntities, SpriteBatch spriteBatch, RenderTarget2D difTarget, RenderTarget2D hgtTarget, RenderTarget2D nrmTarget, RenderTarget2D lgtTarget, RenderTarget2D spcTarget, RenderTarget2D temp)
         {
-            
             Effect pointLight = assetManager.GetEffect("shaders/light/PointLight");
 
             Vector2 viewportTrans = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
@@ -313,7 +320,10 @@ namespace Engine
                 if (ent.Type != EntityType.Light)
                     continue;
 
-                graphicsDevice.SetRenderTarget(temp);
+                graphicsDevice.SetRenderTargets(temp);
+                
+
+                graphicsDevice.SetRenderTargets(temp, spcTarget);
                 graphicsDevice.Clear(Color.Transparent);
 
                 Entities.Lights.Light light = (Entities.Lights.Light)ent;
@@ -382,7 +392,7 @@ namespace Engine
             RenderEntities(lstEntities, spriteBatch, m_rtDif, m_rtDepthStencil, m_rtNormal, temp);
 
             // Render the lights!
-            RenderLights(lstEntities, spriteBatch, m_rtDif, m_rtDepthStencil, m_rtNormal, m_rtLights, temp);
+            RenderLights(lstEntities, spriteBatch, m_rtDif, m_rtDepthStencil, m_rtNormal, m_rtLights, m_rtSpc, temp);
 
             // Render the overlays!
             Texture2D lightPos = assetManager.GetTexture("sprites/test/lightpos");
@@ -411,6 +421,7 @@ namespace Engine
             // That is, a combination of the dif and the lighting outputs
             graphicsDevice.SetRenderTarget(finalResult);
             graphicsDevice.Textures[1] = m_rtLights;
+            graphicsDevice.Textures[2] = m_rtSpc;
 
             Effect combine = assetManager.GetEffect("shaders/Combine");
 

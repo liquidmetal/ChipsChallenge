@@ -34,7 +34,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\ClearBuffers.xnb</Output>
-      <Time>2012-04-01T11:44:21.6014321-07:00</Time>
+      <Time>2012-04-19T00:48:59.9103295-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\ChannelRender.fx</Source>
@@ -61,7 +61,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\light\PointLight.xnb</Output>
-      <Time>2012-04-18T01:11:14.3058552-07:00</Time>
+      <Time>2012-04-19T00:41:34.491853-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\Combine.fx</Source>
@@ -70,7 +70,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\Combine.xnb</Output>
-      <Time>2012-04-14T15:16:46.6236424-07:00</Time>
+      <Time>2012-04-19T00:41:04.3191272-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\light\DirectionalLight.fx</Source>
@@ -151,7 +151,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\teapot\nrm.xnb</Output>
-      <Time>2012-04-14T22:12:14.5854402-07:00</Time>
+      <Time>2012-04-18T07:51:08.208228-07:00</Time>
     </Item>
     <Item>
       <Source>sprites\test\cuboid\dif.png</Source>
@@ -205,7 +205,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\test\cylinder\nrm.xnb</Output>
-      <Time>2012-04-15T17:36:56.5942087-07:00</Time>
+      <Time>2012-04-18T08:03:08.6894371-07:00</Time>
     </Item>
     <Item>
       <Source>sprites\buildings\houseA\dif.png</Source>
@@ -232,7 +232,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\sprites\buildings\houseA\nrm.xnb</Output>
-      <Time>2012-04-15T17:30:37.5025258-07:00</Time>
+      <Time>2012-04-18T08:07:36.2527409-07:00</Time>
     </Item>
     <Item>
       <Source>sprites\test\plane\dif.png</Source>
