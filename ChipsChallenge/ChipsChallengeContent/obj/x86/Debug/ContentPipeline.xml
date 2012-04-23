@@ -25,7 +25,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\sprite\DepthSprite.xnb</Output>
-      <Time>2012-04-04T20:08:43.4561515-07:00</Time>
+      <Time>2012-04-22T14:19:56.8032758-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\ClearBuffers.fx</Source>
@@ -34,7 +34,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Projects\ChipsChallenge\LevelEditorXna\LevelEditorXna\bin\x86\Debug\Content\shaders\ClearBuffers.xnb</Output>
-      <Time>2012-04-19T00:48:59.9103295-07:00</Time>
+      <Time>2012-04-19T00:49:45.7499514-07:00</Time>
     </Item>
     <Item>
       <Source>shaders\ChannelRender.fx</Source>

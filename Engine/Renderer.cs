@@ -237,12 +237,14 @@ namespace Engine
                 depthSpriteShader.Parameters["position"].SetValue(pos);
                 depthSpriteShader.Parameters["bufferSize"].SetValue(new Vector2(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height));
                 depthSpriteShader.Parameters["texSize"].SetValue(new Vector2(texHeightmap.Width, texHeightmap.Height));
+                depthSpriteShader.Parameters["unproject"].SetValue(inverse);
+                heightSpriteShader.Parameters["z"].SetValue(ent.Z);
                 graphicsDevice.Textures[1] = hgtTarget;
                 depthSpriteShader.Techniques[0].Passes[0].Apply();
 
                 // Draw the sprite
-                heightSpriteShader.Parameters["z"].SetValue(ent.Z);
-                heightSpriteShader.Techniques[0].Passes[0].Apply();
+                
+                //heightSpriteShader.Techniques[0].Passes[0].Apply();
                 spriteBatch.Draw(texHeightmap, pos, Color.White);
                 spriteBatch.End();
 
