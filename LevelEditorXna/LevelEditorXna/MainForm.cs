@@ -31,6 +31,10 @@ namespace LevelEditor
 
         Entity m_selectedEntity = null;
         private Vector2 m_ptLastMouseClick;
+        private bool snapToIso = false;
+
+        private int m_numEntities = 0;
+        private int m_numLights = 0;
 
         public MainForm()
         {
@@ -46,8 +50,10 @@ namespace LevelEditor
             currentWorld = formRenderer.CurrentWorld;
             currentRenderer = formRenderer.CurrentRenderer;
 
-            currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
-            currentWorld.AddEntity(new Engine.Entities.Lights.PointLight());
+            //currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
+            //currentWorld.AddEntity(new Engine.Entities.Lights.PointLight());
+
+            UpdateViews();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -67,6 +73,10 @@ namespace LevelEditor
 
             // Setup the upper left window
             Size sz1 = splitSide.Panel1.ClientSize;
+            lstEntitiesList.Top = 2;
+            lstEntitiesList.Left = 2;
+            lstEntitiesList.Width = sz1.Width-4;
+            lstEntitiesList.Height = sz1.Height-4;
 
             // Setup the lower left window
             Size sz2 = splitSide.Panel2.ClientSize;
@@ -106,6 +116,22 @@ namespace LevelEditor
         private void mnuCreateTestFloor_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new FloorTile());
+            UpdateViews();
+        }
+
+        private void UpdateEntitiesList()
+        {
+            lstEntitiesList.Clear();
+
+            List<Entity> lst = formRenderer.CurrentWorld.GetEntities();
+            foreach(Entity ent in lst)
+            {
+                ListViewItem item = new ListViewItem(ent.Name);
+
+                lstEntitiesList.Items.Add(item);
+            }
+
+            lstEntitiesList.Refresh();
         }
 
         private void formRenderer_MouseDown(object sender, MouseEventArgs e)
@@ -119,6 +145,27 @@ namespace LevelEditor
 
             m_selectedEntity = ent;
             gridProperties.SelectedObject = m_selectedEntity;
+
+            if (m_selectedEntity == null)
+            {
+                foreach (ListViewItem item in lstEntitiesList.Items)
+                {
+                    item.Selected = false;
+                }
+            }
+            else
+            {
+                foreach (ListViewItem item in lstEntitiesList.Items)
+                {
+                    if (item.Text == m_selectedEntity.Name)
+                    {
+                        item.Selected = true;
+                        item.EnsureVisible();
+                    }
+                    else
+                        item.Selected = false;
+                }
+            }
         }
 
         private void formRenderer_MouseMove(object sender, MouseEventArgs e)
@@ -149,9 +196,17 @@ namespace LevelEditor
                 pos.X += (worldPos.X - m_ptLastMouseClick.X);
                 pos.Y += (worldPos.Y - m_ptLastMouseClick.Y);
 
+                m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
+
+                if (snapToIso)
+                {
+                    pos -= new Vector2(pos.X % 10, pos.Y % 10);
+                    m_ptLastMouseClick -= new Vector2(worldPos.X%10, worldPos.Y%10);
+                }
+
                 m_selectedEntity.Position = pos;
 
-                m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
+                
             }
 
             lblMousePosition.Text = "(" + e.X + ", " + e.Y + ")";
@@ -168,31 +223,46 @@ namespace LevelEditor
         private void cylinderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new Engine.Entities.Test.Cylinder());
+            UpdateViews();
         }
 
         private void mnuCreateTestTeapot_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new Engine.Entities.Test.Teapot());
+            UpdateViews();
         }
 
         private void mnuCreatePointLight_Click(object sender, EventArgs e)
         {
-            currentWorld.AddEntity(new Engine.Entities.Lights.PointLight());
+            currentWorld.AddEntity(new Engine.Entities.Lights.PointLight("Light" + m_numLights));
+            m_numLights++;
+
+            UpdateViews();
         }
 
         private void mnuCreateCuboid_Click(object sender, EventArgs e)
         {
-            currentWorld.AddEntity(new Engine.Entities.Test.Cuboid());
+            currentWorld.AddEntity(new Engine.Entities.Test.Cuboid("Entity" + m_numEntities));
+            m_numEntities++;
+
+            UpdateViews();
         }
 
         private void houseAToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new Engine.Entities.Buildings.HouseA());
+            UpdateViews();
         }
 
         private void planeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new Engine.Entities.Test.Plane());
+            UpdateViews();
+        }
+
+        private void UpdateViews()
+        {
+            UpdateEntitiesList();
         }
 
         public void SetDisplayPass(RenderSceneType rst)
@@ -309,6 +379,46 @@ namespace LevelEditor
         private void straightXToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentWorld.AddEntity(new Engine.Entities.Streets.Modern.StreetStraightX());
+        }
+
+        private void mnuSnapToIso_Click(object sender, EventArgs e)
+        {
+            toggleSnapToIso();
+        }
+
+        private void toggleSnapToIso()
+        {
+            snapToIso = !snapToIso;
+            mnuSnapToIso.Checked = snapToIso;
+            btnEnableSnap.Checked = snapToIso;
+        }
+
+        private void btnEnableSnap_Click(object sender, EventArgs e)
+        {
+            toggleSnapToIso();
+        }
+
+        private void buildingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstEntitiesList_Click(object sender, EventArgs e)
+        {
+            if (lstEntitiesList.SelectedItems.Count == 0)
+                return;
+
+            string name = lstEntitiesList.SelectedItems[0].Text;
+
+            foreach (Entity ent in formRenderer.CurrentWorld.GetEntities())
+            {
+                if (ent.Name == name)
+                {
+                    m_selectedEntity = ent;
+                    gridProperties.SelectedObject = ent;
+                    break;
+                }
+            }
         }
     }
 }

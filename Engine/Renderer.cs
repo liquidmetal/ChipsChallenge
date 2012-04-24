@@ -474,11 +474,14 @@ namespace Engine
             foreach (Entity ent in world.GetEntities())
             {
                 Vector2 pos = ent.Position;
-                Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 10, 10);;
+                Rectangle rect = new Rectangle((int)pos.X-10, (int)pos.Y-10, 10, 10);;
                 if(ent.Type==EntityType.Sprite)
                 {
                     Texture2D tex = assetManager.GetTexture(ent.Sprite);
-                    rect = new Rectangle((int)pos.X, (int)pos.Y, tex.Width, tex.Height);
+                    Vector2 pos2D = Project(new Vector3(pos.X, pos.Y, ent.Z));
+                    Vector3 vec = Unproject(new Vector2(pos2D.X+tex.Width, pos2D.Y+tex.Height));
+
+                    rect = new Rectangle((int)pos.X, (int)pos.Y, (int)(vec.X-pos.X), (int)(vec.Y-pos.Y));
                 }
                 
                 if (rect.Contains((int)x, (int)y))
