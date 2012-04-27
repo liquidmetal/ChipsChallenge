@@ -134,6 +134,22 @@ namespace LevelEditor
             lstEntitiesList.Refresh();
         }
 
+        private void SetSelectedObject(Entity ent)
+        {
+            if (m_selectedEntity != ent && m_selectedEntity!=null)
+            {
+                m_selectedEntity.Selected = false;
+            }
+            
+            if(ent!=null)
+            {
+                ent.Selected = true;
+            }
+
+            m_selectedEntity = ent;
+            gridProperties.SelectedObject = m_selectedEntity;
+        }
+
         private void formRenderer_MouseDown(object sender, MouseEventArgs e)
         {
             // Do stuff based on the current state
@@ -141,10 +157,9 @@ namespace LevelEditor
 
             m_ptLastMouseClick = new Vector2(worldPos.X, worldPos.Y);
 
-            Entity ent = currentRenderer.GetEntityAtPosition(currentWorld, (int)worldPos.X, (int)worldPos.Y);
+            Entity ent = currentRenderer.GetEntityAtPosition(currentWorld, (int)e.X, (int)e.Y);
 
-            m_selectedEntity = ent;
-            gridProperties.SelectedObject = m_selectedEntity;
+            SetSelectedObject(ent);
 
             if (m_selectedEntity == null)
             {

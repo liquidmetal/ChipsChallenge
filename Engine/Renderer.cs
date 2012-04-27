@@ -418,6 +418,35 @@ namespace Engine
                 spriteBatch.End();
             }
 
+            // Render out 'selection rectangles'
+            Texture2D selectionRect = new Texture2D(graphicsDevice, 1, 1);
+            selectionRect.SetData<Color>(new[] { Color.Red });
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            foreach (Entity ent in lstEntities)
+            {
+                if (!ent.Selected)
+                    continue;
+
+                Vector2 upperLeft = Project(new Vector3(ent.Position.X, ent.Position.Y, ent.Type==EntityType.Sprite?ent.Z:0));
+                upperLeft.X -= 2;
+                upperLeft.Y -= 2;
+
+                Vector2 size = new Vector2(14, 14);
+
+                if (ent.Type == EntityType.Sprite)
+                {
+                    Texture2D sprite = assetManager.GetTexture(ent.Sprite + "/dif");
+                    size = new Vector2(sprite.Width+4, sprite.Height+4);
+                }
+
+                spriteBatch.Draw(selectionRect, new Rectangle((int)upperLeft.X, (int)upperLeft.Y, 1, (int)size.Y), Color.White);
+                spriteBatch.Draw(selectionRect, new Rectangle((int)upperLeft.X, (int)upperLeft.Y, (int)size.X, 1), Color.White);
+                spriteBatch.Draw(selectionRect, new Rectangle((int)(upperLeft.X+size.X), (int)upperLeft.Y, 1, (int)size.Y), Color.White);
+                spriteBatch.Draw(selectionRect, new Rectangle((int)(upperLeft.X), (int)(upperLeft.Y+size.Y), (int)size.X, 1), Color.White);
+            }
+            spriteBatch.End();
+
             ////////////////////////////////////////////////////////////////////
             // finalResult stores the final beauty pass
             // That is, a combination of the dif and the lighting outputs
@@ -474,14 +503,15 @@ namespace Engine
             foreach (Entity ent in world.GetEntities())
             {
                 Vector2 pos = ent.Position;
-                Rectangle rect = new Rectangle((int)pos.X-10, (int)pos.Y-10, 10, 10);;
+                Vector2 pos2D = Project(new Vector3(pos.X, pos.Y, ent.Type==EntityType.Sprite?ent.Z:0));
+
+                Rectangle rect = new Rectangle((int)pos2D.X, (int)pos2D.Y, 10, 10);;
                 if(ent.Type==EntityType.Sprite)
                 {
-                    Texture2D tex = assetManager.GetTexture(ent.Sprite);
-                    Vector2 pos2D = Project(new Vector3(pos.X, pos.Y, ent.Z));
-                    Vector3 vec = Unproject(new Vector2(pos2D.X+tex.Width, pos2D.Y+tex.Height));
+                    Texture2D tex = assetManager.GetTexture(ent.Sprite+"/dif");
+                    
 
-                    rect = new Rectangle((int)pos.X, (int)pos.Y, (int)(vec.X-pos.X), (int)(vec.Y-pos.Y));
+                    rect = new Rectangle((int)pos2D.X, (int)pos2D.Y, (int)(tex.Width), (int)(tex.Height));
                 }
                 
                 if (rect.Contains((int)x, (int)y))

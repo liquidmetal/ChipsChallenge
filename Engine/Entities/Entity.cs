@@ -31,6 +31,7 @@ namespace Engine.Entities
         protected string m_strHeightmap;
         protected string m_strNormalmap;
         protected EntityType m_etType;
+        protected bool m_bSelected;
 
         /// <summary>
         /// The position where this floor tile was placed
@@ -39,6 +40,12 @@ namespace Engine.Entities
         {
             get { return m_vecPosition; }
             set { m_vecPosition = value; }
+        }
+
+        public bool Selected
+        {
+            get { return m_bSelected; }
+            set { m_bSelected = value; }
         }
 
         public string Sprite
